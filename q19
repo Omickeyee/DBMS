@@ -1,0 +1,90 @@
+omickeyee@omickeyee-HP-Pavilion-Laptop-15-cc1xx:~$ sudo mysql
+[sudo] password for omickeyee: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 37
+Server version: 8.0.29-0ubuntu0.22.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database q19;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use q19;
+Database changed
+mysql> create table Teacher(
+    -> Id int NOT NULL primary key,
+    -> Name varchar(255),
+    -> Address varchar(255),
+    -> dept varchar(255),
+    -> salary int );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> Insert into Teacher(Id,Name,Address,dept,salary) values
+    -> (101,'A','pune','IT',100000),
+    -> (102,'B','pune1','COMP',80000),
+    -> (103,'C','pune','IT',25000),
+    -> (104,'D','pune2','COMP',75000),
+    -> (105,'E','pune','IT',10000);
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from Teacher;
++-----+------+---------+------+--------+
+| Id  | Name | Address | dept | salary |
++-----+------+---------+------+--------+
+| 101 | A    | pune    | IT   | 100000 |
+| 102 | B    | pune1   | COMP |  80000 |
+| 103 | C    | pune    | IT   |  25000 |
+| 104 | D    | pune2   | COMP |  75000 |
+| 105 | E    | pune    | IT   |  10000 |
++-----+------+---------+------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select Teacher.* from Teacher where Address='pune' and salary>25000;
++-----+------+---------+------+--------+
+| Id  | Name | Address | dept | salary |
++-----+------+---------+------+--------+
+| 101 | A    | pune    | IT   | 100000 |
++-----+------+---------+------+--------+
+1 row in set (0.00 sec)
+
+
+mysql> select count(*) from Teacher where salary>75000;
++----------+
+| count(*) |
++----------+
+|        2 |
++----------+
+1 row in set (0.00 sec)
+
+
+
+mysql> select
+    -> ((select sum(salary) from Teacher where dept='IT')
+    -> /
+    -> (select count(*) from Teacher where dept='IT') ) as average;
++------------+
+| average    |
++------------+
+| 45000.0000 |
++------------+
+1 row in set (0.01 sec)
+
+
+mysql> select avg(salary) from Teacher where dept='IT' ;
++-------------+
+| avg(salary) |
++-------------+
+|  45000.0000 |
++-------------+
+1 row in set (0.01 sec)
+
+mysql> 
+
+

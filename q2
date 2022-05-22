@@ -1,0 +1,263 @@
+omickeyee@omickeyee-HP-Pavilion-Laptop-15-cc1xx:~$ sudo mysql
+[sudo] password for omickeyee: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 15
+Server version: 8.0.29-0ubuntu0.22.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| q1                 |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> create database q2;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> create table painter(painter_id int NOT NULL ,painter_name varchar(25) NOT NULL ,address varchar(25) NOT NULL ,contact_no int NOT NULL ,primary key(painter_id));
+ERROR 1046 (3D000): No database selected
+mysql> use q2;
+Database changed
+mysql> create table painter(painter_id int NOT NULL ,painter_name varchar(25) NOT NULL ,address varchar(25) NOT NULL ,contact_no int NOT NULL ,primary key(painter_id));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table painting(painting_id int NOT NULL ,painting_desc varchar(25)
+ NOT NULL ,painting_theme varchar(25) NOT NULL ,painter_id int NOT NULL , gallery_no int NOT NULL , primary key(painter_id) , foreign key(gallery_no));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> create table painting(painting_id int NOT NULL ,painting_desc varchar(25) NOT NULL ,painting_theme varchar(25) NOT NULL ,painter_id int NOT NULL , gallery_no int NOT NULL , primary key(painter_id) , foreign key (gallery_no));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> create table painting(painting_id int NOT NULL ,painting_desc varchar(25) NOT NULL ,painting_theme varchar(25) NOT NULL ,painter_id int NOT NULL  , primary key(painter_id));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table gallery(gallery_no int NOT NULL ,gallery_address varchar(25)NOT NULL ,gallery_name varchar(25) NOT NULL);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc painter;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| painter_id   | int         | NO   | PRI | NULL    |       |
+| painter_name | varchar(25) | NO   |     | NULL    |       |
+| address      | varchar(25) | NO   |     | NULL    |       |
+| contact_no   | int         | NO   |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> desc painting;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| painting_id    | int         | NO   |     | NULL    |       |
+| painting_desc  | varchar(25) | NO   |     | NULL    |       |
+| painting_theme | varchar(25) | NO   |     | NULL    |       |
+| painter_id     | int         | NO   | PRI | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc gallery;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| gallery_no      | int         | NO   |     | NULL    |       |
+| gallery_address | varchar(25) | NO   |     | NULL    |       |
+| gallery_name    | varchar(25) | NO   |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table painting
+    -> add gallery_no int NOT NULL references gallery(gallery_no);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc painting;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| painting_id    | int         | NO   |     | NULL    |       |
+| painting_desc  | varchar(25) | NO   |     | NULL    |       |
+| painting_theme | varchar(25) | NO   |     | NULL    |       |
+| painter_id     | int         | NO   | PRI | NULL    |       |
+| gallery_no     | int         | NO   |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table painting
+    -> drop gallery_no;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc painting
+    -> ;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| painting_id    | int         | NO   |     | NULL    |       |
+| painting_desc  | varchar(25) | NO   |     | NULL    |       |
+| painting_theme | varchar(25) | NO   |     | NULL    |       |
+| painter_id     | int         | NO   | PRI | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table painting ;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> desd painting;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desd painting' at line 1
+mysql> desc painting;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| painting_id    | int         | NO   |     | NULL    |       |
+| painting_desc  | varchar(25) | NO   |     | NULL    |       |
+| painting_theme | varchar(25) | NO   |     | NULL    |       |
+| painter_id     | int         | NO   | PRI | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table painting
+    -> add gallery_no int NOT NULL;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc painting;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| painting_id    | int         | NO   |     | NULL    |       |
+| painting_desc  | varchar(25) | NO   |     | NULL    |       |
+| painting_theme | varchar(25) | NO   |     | NULL    |       |
+| painter_id     | int         | NO   | PRI | NULL    |       |
+| gallery_no     | int         | NO   |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> alter table painting
+    -> add constraint foreign key(gallery_no) references gallery(gallery_no);
+ERROR 1822 (HY000): Failed to add the foreign key constraint. Missing index for constraint 'painting_ibfk_1' in the referenced table 'gallery'
+mysql> alter table painting add ^Coreign key(gallery_no) references gallery(gallery_no);
+mysql> alter table gallery 
+    -> add primary key (gallery_no);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc gallery;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| gallery_no      | int         | NO   | PRI | NULL    |       |
+| gallery_address | varchar(25) | NO   |     | NULL    |       |
+| gallery_name    | varchar(25) | NO   |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> alter table painting;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> alter table painting
+    -> add foreign key (gallery_no) references gallery(galler_no);
+ERROR 3734 (HY000): Failed to add the foreign key constraint. Missing column 'galler_no' for constraint 'painting_ibfk_1' in the referenced table 'gallery'
+mysql> alter table painting add foreign key (gallery_no) references gallery(gallery_no);
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc painting;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| painting_id    | int         | NO   |     | NULL    |       |
+| painting_desc  | varchar(25) | NO   |     | NULL    |       |
+| painting_theme | varchar(25) | NO   |     | NULL    |       |
+| painter_id     | int         | NO   | PRI | NULL    |       |
+| gallery_no     | int         | NO   | MUL | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> insert into painting (painting_id    | int         | NO   |     | NULL    |       |
+    -> | painting_desc  | varchar(25) | NO   |     | NULL    |       |
+    -> | painting_theme | varchar(25) | NO   |     | NULL    |       |
+    -> | painter_id     | int         | NO   | PRI | NULL    |       |
+    -> ^C
+mysql> insert into painting(painting_id,painting_desc,painting_theme ,painter_id ,gallery_no )
+    -> values(101,'horse',''nature',1001,2345);
+    '> ;
+    '> ^C
+mysql> insert into painting(painting_id,painting_desc,painting_theme ,painter_id ,gallery_no )
+    -> values(101,'horse',''nature',1001,2345);
+    '> ^C
+mysql> insert into painting (painting_id, painting_desc, painting_theme , painter_id ,gallery_no )
+    -> values(101,'horse','nature', 1001,2345);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`q2`.`painting`, CONSTRAINT `painting_ibfk_1` FOREIGN KEY (`gallery_no`) REFERENCES `gallery` (`gallery_no`))
+mysql> slect * from painting;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'slect * from painting' at line 1
+mysql> select * from painting;
+Empty set (0.00 sec)
+
+mysql> insert into painter (painter_id ,painter_name,address ,contact_no ) values(101,'mike' , 'pune' ,987654321);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into painter (painter_id ,painter_name,address ,contact_no ) values(102,'blaze' , 'mumbai' ,987654322);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from painter;
++------------+--------------+---------+------------+
+| painter_id | painter_name | address | contact_no |
++------------+--------------+---------+------------+
+|        101 | mike         | pune    |  987654321 |
+|        102 | blaze        | mumbai  |  987654322 |
++------------+--------------+---------+------------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO gallery (gallery_no, gallery_address, gallery_name) VALUES (1001, 'pune', 'art work');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO gallery (gallery_no, gallery_address, gallery_name) VALUES (1002, 'mumbai', 'art style');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> desc gallery;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| gallery_no      | int         | NO   | PRI | NULL    |       |
+| gallery_address | varchar(25) | NO   |     | NULL    |       |
+| gallery_name    | varchar(25) | NO   |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> select *from gallery;
++------------+-----------------+--------------+
+| gallery_no | gallery_address | gallery_name |
++------------+-----------------+--------------+
+|       1001 | pune            | art work     |
+|       1002 | mumbai          | art style    |
++------------+-----------------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO painting (painting_id, painting_desc, painting_theme, painter_id, gallery_no) VALUES (10001 ,'horse' ,'nature',101,1001);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO painting (painting_id, painting_desc, painting_theme, painter_id, gallery_no) VALUES (10002 ,'dog' ,'wind',102,1002);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from painting;
++-------------+---------------+----------------+------------+------------+
+| painting_id | painting_desc | painting_theme | painter_id | gallery_no |
++-------------+---------------+----------------+------------+------------+
+|       10001 | horse         | nature         |        101 |       1001 |
+|       10002 | dog           | wind           |        102 |       1002 |
++-------------+---------------+----------------+------------+------------+
+2 rows in set (0.00 sec)
+
+

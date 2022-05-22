@@ -1,0 +1,352 @@
+omickeyee@omickeyee-HP-Pavilion-Laptop-15-cc1xx:~$ sudo mysql
+[sudo] password for omickeyee: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 19
+Server version: 8.0.29-0ubuntu0.22.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database q3;
+Query OK, 1 row affected (0.01 sec)
+
+
+mysql> CREATE TABLE book ( book_no VARCHAR(20) NOT NULL,  book_name VARCHAR(100) NOT NULL,   author_name VARCHAR(100) NOT NULL,   cost INT NOT NULL,   category VARCHAR(20) NOT NULL,   PRIMARY KEY (book_no));
+ERROR 1046 (3D000): No database selected
+mysql> use q3;
+Database changed
+mysql> CREATE TABLE book ( book_no VARCHAR(20) NOT NULL,  book_name VARCHAR(100) NOT NULL,   author_name VARCHAR(100) NOT NULL,   cost INT NOT NULL,   category VARCHAR(20) NOT NULL,   PRIMARY KEY (book_no));
+Query OK, 0 rows affected (0.03 sec)
+
+
+
+mysql> CREATE TABLE member (  M_Id VARCHAR(20) NOT NULL, M_Name VARCHAR(100) NOT NULL, Mship_type VARCHAR(20) NOT NULL,   fees_paid INT NOT NULL,   Max_Books_Allowed INT NOT NULL,   Penalty_Amount INT NOT NULL DEFAULT 100,   PRIMARY KEY (M_Id));
+Query OK, 0 rows affected (0.02 sec)
+
+
+mysql> CREATE TABLE issue ( Lib_Issue_Id VARCHAR(50) NOT NULL, book_no VARCHAR(20) NOT NULL, M_Id VARCHAR(20) NOT NULL,   Issue_Date DATE NOT
+NULL,  Return_Date DATE NULL,   PRIMARY KEY (Lib_Issue_Id),  FOREIGN KEY (book_no)  REFERENCES book (book_no) ,FOREIGN KEY (M_Id)   REFERENCES member(M_Id));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc issue;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| Lib_Issue_Id | varchar(50) | NO   | PRI | NULL    |       |
+| book_no      | varchar(20) | NO   | MUL | NULL    |       |
+| M_Id         | varchar(20) | NO   | MUL | NULL    |       |
+| Issue_Date   | date        | NO   |     | NULL    |       |
+| Return_Date  | date        | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> desc book;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| book_no     | varchar(20)  | NO   | PRI | NULL    |       |
+| book_name   | varchar(100) | NO   |     | NULL    |       |
+| author_name | varchar(100) | NO   |     | NULL    |       |
+| cost        | int          | NO   |     | NULL    |       |
+| category    | varchar(20)  | NO   |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> desc member;
++-------------------+--------------+------+-----+---------+-------+
+| Field             | Type         | Null | Key | Default | Extra |
++-------------------+--------------+------+-----+---------+-------+
+| M_Id              | varchar(20)  | NO   | PRI | NULL    |       |
+| M_Name            | varchar(100) | NO   |     | NULL    |       |
+| Mship_type        | varchar(20)  | NO   |     | NULL    |       |
+| fees_paid         | int          | NO   |     | NULL    |       |
+| Max_Books_Allowed | int          | NO   |     | NULL    |       |
+| Penalty_Amount    | int          | NO   |     | 100     |       |
++-------------------+--------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+mysql> INSERT INTO `q3`.`book` (`book_no`, `book_name`, `author_name`, `cost`, `category`) VALUES ('Book-1', 'Physics', 'Scott Urman', '500',
+'Science');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO `practical_q3`.`book` (`book_no`, `book_name`, `author_name`, `cost`, `category`) VALUES ('Book-2', 'Chemistry', 'VK Jaiswal', '300', 'Science');
+ERROR 1049 (42000): Unknown database 'practical_q3'
+mysql> INSERT INTO `q3`.`book` (`book_no`, `book_name`, `author_name`, `cost`, `category`) VALUES ('Book-2', 'Chemistry', 'VK Jaiswal', '300', 'Science');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO `q3`.`book` (`book_no`, `book_name`, `author_name`, `cost`, `category`) VALUES ('Book-3', 'Half Girlfriend', 'Chetan Bhagat', '301', 'Story');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO `q3`.`book` (`book_no`, `book_name`, `author_name`, `cost`, `category`) VALUES ('Book-4', 'Do Epic Shit', 'Ankur', '200', 'Philosophy');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> NSERT INTO `q3`.`book` (`book_no`, `book_name`, `author_name`, `cost`, `category`) VALUES ('Book-5', 'Math', 'S. Chand', '301', 'Sceince');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'NSERT INTO `q3`.`book` (`book_no`, `book_name`, `author_name`, `cost`, `category' at line 1
+mysql> INSERT INTO `q3`.`book` (`book_no`, `book_name`, `author_name`, `cost`, `category`) VALUES ('Book-5', 'Math', 'S. Chand', '301', 'Sceince');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO `q3`.`book` (`book_no`, `book_name`, `author_name`, `cost`, `category`) VALUES ('Book-6', 'Processor Architecture', 'Danny
+Causay', '500', 'Science');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO `q3`.`book` (`book_no`, `book_name`, `author_name`, `cost`, `category`) VALUES ('Book-7', 'Python', 'Scott Urman', '500', 'Technology');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `q3`.`member` (`M_Id`, `M_Name`, `Mship_type`, `fees_paid`, `Max_Books_Allowed`) VALUES ('23231', 'Abhijeet Ingle', 'Annual', '100', '15',  '100');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO `q3`.`member` (`M_Id`, `M_Name`, `Mship_type`, `fees_paid`, `Max_Books_Allowed`) VALUES ('23232', 'Abhishek Jadhav', 'Annual', '100', '15', '100');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO `q3`.`member` (`M_Id`, `M_Name`, `Mship_type`, `fees_paid`, `Max_Books_Allowed`) VALUES ('23241', 'Atharva Kinikar', 'Monthly', '50', '5', '150');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO `q3`.`member` (`M_Id`, `M_Name`, `Mship_type`, `fees_paid`, `Max_Books_Allowed`) VALUES ('23229', 'Shlok Hinge', 'Monthly', '50', '5', '150');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO `q3`.`member` (`M_Id`, `M_Name`, `Mship_type`, `fees_paid`, `Max_Books_Allowed`, `Penalty_Amount`) VALUES ('23225', 'Pratik Gabhale', 'Annual', '100', '15', '100');
+Query OK, 1 row affected (0.00 sec)
+
+
+mysql> INSERT INTO `q3`.`issue` (`Lib_Issue_Id`, `book_no`, `M_Id`, `Issue_Date`, `Return_Date`) VALUES ('Issue-13', 'Book-2', '23225', '2022-01-06', '2022-01-22');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `q3`.`issue` (`Lib_Issue_Id`, `book_no`, `M_Id`, `Issue_Date`, `Return_Date`) VALUES ('Issue-14', 'Book-1', '23225', '2022-06-14', '2022-06-30');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from book;
++---------+------------------------+---------------+------+------------+
+| book_no | book_name              | author_name   | cost | category   |
++---------+------------------------+---------------+------+------------+
+| Book-1  | Physics                | Scott Urman   |  500 | Science    |
+| Book-2  | Chemistry              | VK Jaiswal    |  300 | Science    |
+| Book-3  | Half Girlfriend        | Chetan Bhagat |  301 | Story      |
+| Book-4  | Do Epic Shit           | Ankur         |  200 | Philosophy |
+| Book-5  | Math                   | S. Chand      |  301 | Sceince    |
+| Book-6  | Processor Architecture | Danny Causay  |  500 | Science    |
+| Book-7  | Python                 | Scott Urman   |  500 | Technology |
++---------+------------------------+---------------+------+------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from Memeber;
+ERROR 1146 (42S02): Table 'q3.Memeber' doesn't exist
+mysql> select * from memeber;
+ERROR 1146 (42S02): Table 'q3.memeber' doesn't exist
+mysql> select * from member;
++-------+----------------+------------+-----------+-------------------+----------------+
+| M_Id  | M_Name         | Mship_type | fees_paid | Max_Books_Allowed | Penalty_Amount |
++-------+----------------+------------+-----------+-------------------+----------------+
+| 23225 | Pratik Gabhale | Annual     |       100 |                15 |            100 |
++-------+----------------+------------+-----------+-------------------+----------------+
+1 row in set (0.00 sec)
+
+mysql> NSERT INTO `q3`.`member` (`M_Id`, `M_Name`, `Mship_type`, `fees_paid`, `Max_Books_Allowed`, `Penalty_Amount`) VALUES ('23231', 'Abhijeet Ingle', 'Annual', '100', '15',  '100');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'NSERT INTO `q3`.`member` (`M_Id`, `M_Name`, `Mship_type`, `fees_paid`, `Max_Book' at line 1
+mysql> INSERT INTO `q3`.`member` (`M_Id`, `M_Name`, `Mship_type`, `fees_paid`, `Max_Books_Allowed`, `Penalty_Amount`) VALUES ('23232', 'Abhishek Jadhav', 'Annual', '100', '15', '100');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `q3`.`member` (`M_Id`, `M_Name`, `Mship_type`, `fees_paid`, `Max_Books_Allowed`, `Penalty_Amount`) VALUES ('23241', 'Atharva Kinikar', 'Monthly', '50', '5', '150');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO `q3`.`member` (`M_Id`, `M_Name`, `Mship_type`, `fees_paid`, `Max_Books_Allowed`, `Penalty_Amount`) VALUES ('23229', 'Shlok Hinge', 'Monthly', '50', '5', '150');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `q3`.`member` (`M_Id`, `M_Name`, `Mship_type`, `fees_paid`, `Max_Books_Allowed`, `Penalty_Amount`) VALUES ('23231', 'Abhijeet Ingle', 'Annual', '100', '15',  '100');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from member;
++-------+-----------------+------------+-----------+-------------------+----------------+
+| M_Id  | M_Name          | Mship_type | fees_paid | Max_Books_Allowed | Penalty_Amount |
++-------+-----------------+------------+-----------+-------------------+----------------+
+| 23225 | Pratik Gabhale  | Annual     |       100 |                15 |            100 |
+| 23229 | Shlok Hinge     | Monthly    |        50 |                 5 |            150 |
+| 23231 | Abhijeet Ingle  | Annual     |       100 |                15 |            100 |
+| 23232 | Abhishek Jadhav | Annual     |       100 |                15 |            100 |
+| 23241 | Atharva Kinikar | Monthly    |        50 |                 5 |            150 |
++-------+-----------------+------------+-----------+-------------------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from issue;
++--------------+---------+-------+------------+-------------+
+| Lib_Issue_Id | book_no | M_Id  | Issue_Date | Return_Date |
++--------------+---------+-------+------------+-------------+
+| Issue-13     | Book-2  | 23225 | 2022-01-06 | 2022-01-22  |
+| Issue-14     | Book-1  | 23225 | 2022-06-14 | 2022-06-30  |
++--------------+---------+-------+------------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO `q3`.`issue` (`Lib_Issue_Id`, `book_no`, `M_Id`, `Issue_Date`, `Return_Date`) VALUES ('Issue-1', 'Book-1', '23232', '2022-05-15', '2022-05-31');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO `q3`.`issue` (`Lib_Issue_Id`, `book_no`, `M_Id`, `Issue_Date`, `Return_Date`) VALUES ('Issue-2', 'Book-2', '23231', '2022-05-14', '2022-05-30');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `q3`.`issue` (`Lib_Issue_Id`, `book_no`, `M_Id`, `Issue_Date`, `Return_Date`) VALUES ('Issue-3', 'Book-3', '23232', '2022-04-04', '2022-04-20');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `q3`.`issue` (`Lib_Issue_Id`, `book_no`, `M_Id`, `Issue_Date`, `Return_Date`) VALUES ('Issue-4', 'Book-1', '23231', '2022-06-01', '2022-06-16');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `q3`.`issue` (`Lib_Issue_Id`, `book_no`, `M_Id`, `Issue_Date`, `Return_Date`) VALUES ('Issue-5', 'Book-5', '23229', '2022-05-10', '2022-05-26');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `q3`.`issue` (`Lib_Issue_Id`, `book_no`, `M_Id`, `Issue_Date`, `Return_Date`) VALUES ('Issue-6', 'Book-6', '23241', '2022-04-07', '2022-04-23');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `q3`.`issue` (`Lib_Issue_Id`, `book_no`, `M_Id`, `Issue_Date`, `Return_Date`) VALUES ('Issue-7', 'Book-4', '23229', '2022-05-10', '2022-05-26');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO `q3`.`issue` (`Lib_Issue_Id`, `book_no`, `M_Id`, `Issue_Date`, `Return_Date`) VALUES ('Issue-8', 'Book-2', '23232', '2022-04-03', '2022-04-19');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `q3`.`issue` (`Lib_Issue_Id`, `book_no`, `M_Id`, `Issue_Date`, `Return_Date`) VALUES ('Issue-9', 'Book-1', '23241', '2022-02-12', '2022-02-28');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `q3`.`issue` (`Lib_Issue_Id`, `book_no`, `M_Id`, `Issue_Date`, `Return_Date`) VALUES ('Issue-10', 'Book-3', '23231', '2022-03-06', '2022-03-22');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `q3`.`issue` (`Lib_Issue_Id`, `book_no`, `M_Id`, `Issue_Date`, `Return_Date`) VALUES ('Issue-11', 'Book-2', '23231', '2021-12-14', '2021-12-30');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `q3`.`issue` (`Lib_Issue_Id`, `book_no`, `M_Id`, `Issue_Date`, `Return_Date`) VALUES ('Issue-12', 'Book-1', '23232', '2021-11-04', '2021-11-20');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from issue;
++--------------+---------+-------+------------+-------------+
+| Lib_Issue_Id | book_no | M_Id  | Issue_Date | Return_Date |
++--------------+---------+-------+------------+-------------+
+| Issue-1      | Book-1  | 23232 | 2022-05-15 | 2022-05-31  |
+| Issue-10     | Book-3  | 23231 | 2022-03-06 | 2022-03-22  |
+| Issue-11     | Book-2  | 23231 | 2021-12-14 | 2021-12-30  |
+| Issue-12     | Book-1  | 23232 | 2021-11-04 | 2021-11-20  |
+| Issue-13     | Book-2  | 23225 | 2022-01-06 | 2022-01-22  |
+| Issue-14     | Book-1  | 23225 | 2022-06-14 | 2022-06-30  |
+| Issue-2      | Book-2  | 23231 | 2022-05-14 | 2022-05-30  |
+| Issue-3      | Book-3  | 23232 | 2022-04-04 | 2022-04-20  |
+| Issue-4      | Book-1  | 23231 | 2022-06-01 | 2022-06-16  |
+| Issue-5      | Book-5  | 23229 | 2022-05-10 | 2022-05-26  |
+| Issue-6      | Book-6  | 23241 | 2022-04-07 | 2022-04-23  |
+| Issue-7      | Book-4  | 23229 | 2022-05-10 | 2022-05-26  |
+| Issue-8      | Book-2  | 23232 | 2022-04-03 | 2022-04-19  |
+| Issue-9      | Book-1  | 23241 | 2022-02-12 | 2022-02-28  |
++--------------+---------+-------+------------+-------------+
+14 rows in set (0.00 sec)
+
+mysql> select member.M_name , book.book_name,book.cost FROM Issue INNER JOIN member ON Issue.M_Id=member.M_id INNER JOIN Book ON Book.book_no=issue.book_no WHERE book.aurthor_name="scott Urman" and book.cost >300;
+ERROR 1146 (42S02): Table 'q3.Issue' doesn't exist
+mysql> select member.M_name , book.book_name,book.cost FROM issue INNER JOIN member ON Issue.M_Id=member.M_id INNER JOIN Book ON Book.book_no=issue.book_no WHERE book.aurthor_name="scott Urman" and book.cost >300;
+mysql> select member.M_name , book.book_name,book.cost FROM issue INNER JOIN member ON Issue.M_Id=member.M_id INNER JOIN Book ON Book.book_no=issue.book_no WHERE book.aurthor_name="scott Urman" and book.cost >300; JOIN member ON Issue.M_Id=member.M_id INNER JOIN Book ON Book.book_no=ERROR 1146 (42S02): Table 'q3.Book' doesn't existn" and book.cost >300;
+mysql> select member.M_name , book.book_name,book.cost FROM issue INNER JOIN member ON Issue.M_Id=member.M_id INNER JOIN book ON book.book_no=issue.book_no WHERE book.aurthor_name="scott Urman" and book.cost >300;
+ERROR 1054 (42S22): Unknown column 'book.aurthor_name' in 'where clause'
+mysql> desc book;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| book_no     | varchar(20)  | NO   | PRI | NULL    |       |
+| book_name   | varchar(100) | NO   |     | NULL    |       |
+| author_name | varchar(100) | NO   |     | NULL    |       |
+| cost        | int          | NO   |     | NULL    |       |
+| category    | varchar(20)  | NO   |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> desc member;
++-------------------+--------------+------+-----+---------+-------+
+| Field             | Type         | Null | Key | Default | Extra |
++-------------------+--------------+------+-----+---------+-------+
+| M_Id              | varchar(20)  | NO   | PRI | NULL    |       |
+| M_Name            | varchar(100) | NO   |     | NULL    |       |
+| Mship_type        | varchar(20)  | NO   |     | NULL    |       |
+| fees_paid         | int          | NO   |     | NULL    |       |
+| Max_Books_Allowed | int          | NO   |     | NULL    |       |
+| Penalty_Amount    | int          | NO   |     | 100     |       |
++-------------------+--------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> desc issue;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| Lib_Issue_Id | varchar(50) | NO   | PRI | NULL    |       |
+| book_no      | varchar(20) | NO   | MUL | NULL    |       |
+| M_Id         | varchar(20) | NO   | MUL | NULL    |       |
+| Issue_Date   | date        | NO   |     | NULL    |       |
+| Return_Date  | date        | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select member.M_name , book.book_name,book.cost FROM issue INNER JOIN member ON issue.M_Id=member.M_id INNER JOIN book ON book.book_no=issue.book_no WHERE book.author_name="scott Urman" and book.cost >300;
++-----------------+-----------+------+
+| M_name          | book_name | cost |
++-----------------+-----------+------+
+| Abhishek Jadhav | Physics   |  500 |
+| Abhishek Jadhav | Physics   |  500 |
+| Pratik Gabhale  | Physics   |  500 |
+| Abhijeet Ingle  | Physics   |  500 |
+| Atharva Kinikar | Physics   |  500 |
++-----------------+-----------+------+
+5 rows in set (0.00 sec)
+
+mysql> select * from issue;
++--------------+---------+-------+------------+-------------+
+| Lib_Issue_Id | book_no | M_Id  | Issue_Date | Return_Date |
++--------------+---------+-------+------------+-------------+
+| Issue-1      | Book-1  | 23232 | 2022-05-15 | 2022-05-31  |
+| Issue-10     | Book-3  | 23231 | 2022-03-06 | 2022-03-22  |
+| Issue-11     | Book-2  | 23231 | 2021-12-14 | 2021-12-30  |
+| Issue-12     | Book-1  | 23232 | 2021-11-04 | 2021-11-20  |
+| Issue-13     | Book-2  | 23225 | 2022-01-06 | 2022-01-22  |
+| Issue-14     | Book-1  | 23225 | 2022-06-14 | 2022-06-30  |
+| Issue-2      | Book-2  | 23231 | 2022-05-14 | 2022-05-30  |
+| Issue-3      | Book-3  | 23232 | 2022-04-04 | 2022-04-20  |
+| Issue-4      | Book-1  | 23231 | 2022-06-01 | 2022-06-16  |
+| Issue-5      | Book-5  | 23229 | 2022-05-10 | 2022-05-26  |
+| Issue-6      | Book-6  | 23241 | 2022-04-07 | 2022-04-23  |
+| Issue-7      | Book-4  | 23229 | 2022-05-10 | 2022-05-26  |
+| Issue-8      | Book-2  | 23232 | 2022-04-03 | 2022-04-19  |
+| Issue-9      | Book-1  | 23241 | 2022-02-12 | 2022-02-28  |
++--------------+---------+-------+------------+-------------+
+14 rows in set (0.00 sec)
+
+mysql> select * from member;
++-------+-----------------+------------+-----------+-------------------+----------------+
+| M_Id  | M_Name          | Mship_type | fees_paid | Max_Books_Allowed | Penalty_Amount |
++-------+-----------------+------------+-----------+-------------------+----------------+
+| 23225 | Pratik Gabhale  | Annual     |       100 |                15 |            100 |
+| 23229 | Shlok Hinge     | Monthly    |        50 |                 5 |            150 |
+| 23231 | Abhijeet Ingle  | Annual     |       100 |                15 |            100 |
+| 23232 | Abhishek Jadhav | Annual     |       100 |                15 |            100 |
+| 23241 | Atharva Kinikar | Monthly    |        50 |                 5 |            150 |
++-------+-----------------+------------+-----------+-------------------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from book;
++---------+------------------------+---------------+------+------------+
+| book_no | book_name              | author_name   | cost | category   |
++---------+------------------------+---------------+------+------------+
+| Book-1  | Physics                | Scott Urman   |  500 | Science    |
+| Book-2  | Chemistry              | VK Jaiswal    |  300 | Science    |
+| Book-3  | Half Girlfriend        | Chetan Bhagat |  301 | Story      |
+| Book-4  | Do Epic Shit           | Ankur         |  200 | Philosophy |
+| Book-5  | Math                   | S. Chand      |  301 | Sceince    |
+| Book-6  | Processor Architecture | Danny Causay  |  500 | Science    |
+| Book-7  | Python                 | Scott Urman   |  500 | Technology |
++---------+------------------------+---------------+------+------------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT book.category, COUNT(*) AS 'NO of Books by category' FROM issue INNER JOIN book ON issue.book_no=book.book_no Group BY book.category;
++------------+-------------------------+
+| category   | NO of Books by category |
++------------+-------------------------+
+| Science    |                      10 |
+| Story      |                       2 |
+| Philosophy |                       1 |
+| Sceince    |                       1 |
++------------+-------------------------+
+4 rows in set (0.00 sec)
+
+mysql> ^C
+mysql> 
+
+

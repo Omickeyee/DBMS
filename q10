@@ -1,0 +1,393 @@
+omickeyee@omickeyee-HP-Pavilion-Laptop-15-cc1xx:~$ sudo mysql
+[sudo] password for omickeyee: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 29
+Server version: 8.0.29-0ubuntu0.22.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database q10;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use q10;
+Database changed
+mysql> create table dept(dno int NOT NULL ,dname varchar(25) NOT NULL ,loc varchar(20) NOT NULL, primary key(dno));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table emp(eno int NOT NULL ,ename varchar(20) NOT NULL , sal int NOT NULL ,contact_no varchar(20) NOT NULL , Address varchar(20) NOT NULL ,dno int NOT NULL , primary key(eno));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table project(pno int NOT NULL ,pname varchar(25) ,primary key(pno));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table assigned_to (eno int NOT NULL , pno int NOT NULL );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> alter table assigned_to
+    -> add foreign key(eno) references emp(eno);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table assigned_to
+    -> add foreign key(pno) references project(pno);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table emp
+    -> add foreign key(dno) references emp(dno);
+ERROR 1822 (HY000): Failed to add the foreign key constraint. Missing index for constraint 'emp_ibfk_1' in the referenced table 'emp'
+mysql> alter table emp add foreign key(dno) references dept(dno);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc emp;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| eno        | int         | NO   | PRI | NULL    |       |
+| ename      | varchar(20) | NO   |     | NULL    |       |
+| sal        | int         | NO   |     | NULL    |       |
+| contact_no | varchar(20) | NO   |     | NULL    |       |
+| Address    | varchar(20) | NO   |     | NULL    |       |
+| dno        | int         | NO   | MUL | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> desc project;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| pno   | int         | NO   | PRI | NULL    |       |
+| pname | varchar(25) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+mysql> desc dept;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| dno   | int         | NO   | PRI | NULL    |       |
+| dname | varchar(25) | NO   |     | NULL    |       |
+| loc   | varchar(20) | NO   |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> desc assigned_to;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| eno   | int  | NO   | MUL | NULL    |       |
+| pno   | int  | NO   | MUL | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+mysql> insert into dept(dno , dname , loc) values(1001 , 'IT','pune');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into dept(dno , dname , loc) values(1002 , 'd1','mumbai');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into dept(dno , dname , loc) values(1003 , 'd2','delhi');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into dept(dno , dname , loc) values(1004 , 'd3','banglore');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into emp(eno ,ename ,sal, contact_no,Address ,dno ) values(105 , 'blaze' ,20000,'9101101011','pune',
+    -> 
+    -> ^C
+mysql> insert into emp(eno ,ename ,sal, contact_no,Address ,dno ) values(105 , 'blaze' ,20000,'9101101011','pune',
+    -> 
+    -> insert into emp(eno ,ename ,sal, contact_no,Address ,dno ) values(105 , 'blaze' ,20000,'9101101011','pune',1001);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'into emp(eno ,ename ,sal, contact_no,Address ,dno ) values(105 , 'blaze' ,20000,' at line 3
+mysql> insert into emp(eno ,ename ,sal, contact_no,Address ,dno ) values(105 , 'blaze' ,20000,'9101101011','pune',1001);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into emp(eno ,ename ,sal, contact_no,Address ,dno ) values(106 , 'mike' ,30000,'9101101000','mumbai',1002);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into emp(eno ,ename ,sal, contact_no,Address ,dno ) values(107 , 'draco' ,40000,'9101101400','delhi',1003);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into emp(eno ,ename ,sal, contact_no,Address ,dno ) values(108 , 'mako' ,50000,'9101101600','kerela',1006);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`q10`.`emp`, CONSTRAINT `emp_ibfk_1` FOREIGN KEY (`dno`) REFERENCES `dept` (`dno`))
+mysql> insert into emp(eno ,ename ,sal, contact_no,Address ,dno ) values(108 , 'mako' ,50000,'9101101600','kerela',1005);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`q10`.`emp`, CONSTRAINT `emp_ibfk_1` FOREIGN KEY (`dno`) REFERENCES `dept` (`dno`))
+mysql> insert into emp(eno ,ename ,sal, contact_no,Address ,dno ) values(108 , 'mako' ,50000,'9101101600','kerela',1004);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into emp(pno ,pname ) values(353 ,'database');
+ERROR 1054 (42S22): Unknown column 'pno' in 'field list'
+mysql> insert into project(pno ,pname ) values(353 ,'database');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into project(pno ,pname ) values(354 ,'cg');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into project(pno ,pname ) values(355 ,'DSA');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into project(pno ,pname ) values(356 ,'SE');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into assigned_to(eno ,pno ) values(105 ,353);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into assigned_to(eno ,pno ) values(106 ,354);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into assigned_to(eno ,pno ) values(107 ,355);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into assigned_to(eno ,pno ) values(108 ,356);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> desc emp;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| eno        | int         | NO   | PRI | NULL    |       |
+| ename      | varchar(20) | NO   |     | NULL    |       |
+| sal        | int         | NO   |     | NULL    |       |
+| contact_no | varchar(20) | NO   |     | NULL    |       |
+| Address    | varchar(20) | NO   |     | NULL    |       |
+| dno        | int         | NO   | MUL | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+mysql> select * from emp;
++-----+-------+-------+------------+---------+------+
+| eno | ename | sal   | contact_no | Address | dno  |
++-----+-------+-------+------------+---------+------+
+| 105 | blaze | 20000 | 9101101011 | pune    | 1001 |
+| 106 | mike  | 30000 | 9101101000 | mumbai  | 1002 |
+| 107 | draco | 40000 | 9101101400 | delhi   | 1003 |
+| 108 | mako  | 50000 | 9101101600 | kerela  | 1004 |
++-----+-------+-------+------------+---------+------+
+4 rows in set (0.00 sec)
+
+mysql> select * from project;
++-----+----------+
+| pno | pname    |
++-----+----------+
+| 353 | database |
+| 354 | cg       |
+| 355 | DSA      |
+| 356 | SE       |
++-----+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from dept;
++------+-------+----------+
+| dno  | dname | loc      |
++------+-------+----------+
+| 1001 | IT    | pune     |
+| 1002 | d1    | mumbai   |
+| 1003 | d2    | delhi    |
+| 1004 | d3    | banglore |
++------+-------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from assigned_to;
++-----+-----+
+| eno | pno |
++-----+-----+
+| 105 | 353 |
+| 106 | 354 |
+| 107 | 355 |
+| 108 | 356 |
++-----+-----+
+4 rows in set (0.00 sec)
+
+mysql> select emp.* from emp where pno=353 or pno=354;
+ERROR 1054 (42S22): Unknown column 'pno' in 'where clause'
+mysql> select * from emp where 
+    -> eno in (select eno from assigned_to where pno=353 or pno=354);
++-----+-------+-------+------------+---------+------+
+| eno | ename | sal   | contact_no | Address | dno  |
++-----+-------+-------+------------+---------+------+
+| 105 | blaze | 20000 | 9101101011 | pune    | 1001 |
+| 106 | mike  | 30000 | 9101101000 | mumbai  | 1002 |
++-----+-------+-------+------------+---------+------+
+2 rows in set (0.00 sec)
+
+mysql> select * from emp
+    -> where
+    -> eno in(select eno from assigned_to where pno in(select pno from project where pname='database'));
++-----+-------+-------+------------+---------+------+
+| eno | ename | sal   | contact_no | Address | dno  |
++-----+-------+-------+------------+---------+------+
+| 105 | blaze | 20000 | 9101101011 | pune    | 1001 |
++-----+-------+-------+------------+---------+------+
+1 row in set (0.01 sec)
+
+mysql> select * from emp where
+    -> eno in(select eno from assigned_to where eno=107);
++-----+-------+-------+------------+---------+------+
+| eno | ename | sal   | contact_no | Address | dno  |
++-----+-------+-------+------------+---------+------+
+| 107 | draco | 40000 | 9101101400 | delhi   | 1003 |
++-----+-------+-------+------------+---------+------+
+1 row in set (0.00 sec)
+
+mysql> SELECT eno FROM Emp where
+    -> eno in (select eno from assigned_to where pno in (select pno from assigned_to where
+    -> eno=107));
+ERROR 1146 (42S02): Table 'q10.Emp' doesn't exist
+mysql> SELECT eno FROM emp where
+    -> eno in (select eno from assigned_to where pno in (select pno from assigned_to where
+    -> eno=107));
++-----+
+| eno |
++-----+
+| 107 |
++-----+
+1 row in set (0.00 sec)
+
+mysql> select eno from emp where
+    -> eno in(select eno from assigned_to where eno=107);
++-----+
+| eno |
++-----+
+| 107 |
++-----+
+1 row in set (0.00 sec)
+
+mysql> select eno from assigned_to where pno in (select pno from assigned_to where eno=107);
++-----+
+| eno |
++-----+
+| 107 |
++-----+
+1 row in set (0.00 sec)
+
+mysql> create view new_view as
+    -> select pno,count(*)
+    -> from assigned_to
+    -> group by pno
+    -> order by count(*)
+    -> limit 1;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from project where pno=(select pno from new_view);
++-----+----------+
+| pno | pname    |
++-----+----------+
+| 353 | database |
++-----+----------+
+1 row in set (0.00 sec)
+
+mysql> create view q6view5 as
+    -> select project.pno , project.pname,count(*) as count from project
+    -> inner join assigned_to on assigned_to.pno=project.pno GROUP BY pno;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> select * from q6view5;
++-----+----------+-------+
+| pno | pname    | count |
++-----+----------+-------+
+| 353 | database |     1 |
+| 354 | cg       |     1 |
+| 355 | DSA      |     1 |
+| 356 | SE       |     1 |
++-----+----------+-------+
+4 rows in set (0.00 sec)
+
+mysql> delimiter &&
+mysql> create procedure p4(in pno_ip int)
+    -> begin
+    -> declare enum,esal,edno int;
+    -> declare empname,econtact,eadd varchar(255);
+    -> decleare c1 cursor for select * from emp where eno in(select eno from assigned_to where pno=pno_ip);
+    -> open c1;
+    -> get info : loop fetch c1 into enum,empname,esal,econtact,eadd,edno;
+    -> select enum,empname;
+    -> end loop get_info;
+    -> end &&
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'c1 cursor for select * from emp where eno in(select eno from assigned_to where p' at line 5
+mysql> DELIMITER //
+mysql> CREATE PROCEDURE p4(in pno_ip INT)
+    -> BEGIN
+    -> DECLARE enum,esal,edno INT;
+    -> DECLARE empname,econtact,eadd varchar(255);
+    -> DECLARE c1 Cursor for SELECT * from Emp where eno in(select eno from assigned_to
+    -> where pno = pno_ip);
+    -> open c1;
+    -> get_info : loop fetch c1 into enum,empname,esal,econtact,eadd,edno;
+    -> select enum,empname;
+    -> end loop get_info;
+    -> END//
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call p4(353);
+    -> delimiter ;
+    -> ^C
+mysql> call p4(353);
+    -> ^C
+mysql> delimiter ;
+mysql> call p4(353);
+ERROR 1146 (42S02): Table 'q10.Emp' doesn't exist
+mysql> delimiter &&
+mysql> create procedure no_of_employee()
+    -> BEGIN
+    -> ^C
+mysql> delimiter &&
+    -> create procedure no_of_employee(in pname varchar(25))
+    -> begin
+    -> select project.pno , project.pname,count(*) as count from project
+    -> inner join assigned_to on assigned_to.pno=project.pno GROUP BY pno;
+    -> end &&
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call no_of_employee('database');
++-----+----------+-------+
+| pno | pname    | count |
++-----+----------+-------+
+| 353 | database |     1 |
+| 354 | cg       |     1 |
+| 355 | DSA      |     1 |
+| 356 | SE       |     1 |
++-----+----------+-------+
+4 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call no_of_employee();
+ERROR 1318 (42000): Incorrect number of arguments for PROCEDURE q10.no_of_employee; expected 1, got 0
+mysql> call no_of_employee();
+ERROR 1318 (42000): Incorrect number of arguments for PROCEDURE q10.no_of_employee; expected 1, got 0
+mysql>  delimiter &&
+mysql> create procedure no_employee(in pname varchar(25))
+    -> begin
+    -> select prject.pno ,project.pname,count(*) as count from project
+    -> inner join assigned_to on assigned_to.pno=project.pno where project.pname=pname;
+    -> end&&
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call no_employee('database');
+ERROR 1054 (42S22): Unknown column 'prject.pno' in 'field list'
+mysql> ^C
+mysql> delimiter &&
+mysql> create procedure employee_no(in PNAME varchar(25))
+    -> begin
+    -> select prject.pno ,project.pname,count(*) as count from project
+    -> inner join assigned_to on assigned_to.pno=project.pno where project.pname=PNAME;
+    -> end&&
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> employee_no('database');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'employee_no('database')' at line 1
+mysql> employee_no();
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'employee_no()' at line 1
+mysql> 
+
+

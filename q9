@@ -1,0 +1,377 @@
+omickeyee@omickeyee-HP-Pavilion-Laptop-15-cc1xx:~$ sudo mysql
+[sudo] password for omickeyee: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 28
+Server version: 8.0.29-0ubuntu0.22.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database practical_q9;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use practical_q9;
+Database changed
+mysql> CREATE TABLE `practical_q9`.`job` (
+    ->   `job_id` VARCHAR(20) NOT NULL,
+    ->   `job_title` VARCHAR(50) NOT NULL,
+    ->   `min_salary` INT NOT NULL,
+    ->   `max_salary` INT NOT NULL,
+    ->   PRIMARY KEY (`job_id`));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE `practical_q9`.`location` (
+    ->   `location_id` VARCHAR(20) NOT NULL,
+    ->   `street` VARCHAR(50) NULL,
+    ->   `city` VARCHAR(50) NULL,
+    ->   `state` VARCHAR(50) NOT NULL,
+    ->   `country` VARCHAR(50) NOT NULL,
+    ->   PRIMARY KEY (`location_id`));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> CREATE TABLE `practical_q9`.`department` (
+    ->   `department_id` VARCHAR(20) NOT NULL,
+    ->   `dept_name` VARCHAR(50) NOT NULL,
+    ->   `location_id` VARCHAR(20) NOT NULL,
+    ->   PRIMARY KEY (`department_id`),
+    ->   INDEX `fk_location_id_from_location_idx` (`location_id` ASC) VISIBLE,
+    ->   CONSTRAINT `fk_location_id_from_location`
+    ->     FOREIGN KEY (`location_id`)
+    ->     REFERENCES `practical_q9`.`location` (`location_id`));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE `practical_q9`.`employees` (
+    ->   `employee_id` VARCHAR(20) NOT NULL,
+    ->   `first_name` VARCHAR(20) NOT NULL,
+    ->   `last_name` VARCHAR(20) NOT NULL,
+    ->   `email` VARCHAR(50) NOT NULL,
+    ->   `ph_no` VARCHAR(10) NOT NULL,
+    ->   `hire_date` DATE NOT NULL,
+    ->   `job_id` VARCHAR(20) NOT NULL,
+    ->   `salary` INT NOT NULL,
+    ->   `department_id` VARCHAR(20) NOT NULL,
+    ->   PRIMARY KEY (`employee_id`),
+    ->   INDEX `fk_job_id_from_job_idx` (`job_id` ASC) VISIBLE,
+    ->   INDEX `fk_department_id_from_department_idx` (`department_id` ASC) VISIBLE,
+    ->   CONSTRAINT `fk_job_id_from_job`
+    ->     FOREIGN KEY (`job_id`)
+    ->     REFERENCES `practical_q9`.`job` (`job_id`)
+    ->     ON DELETE NO ACTION
+    ->     ON UPDATE CASCADE,
+    ->   CONSTRAINT `fk_department_id_from_department`
+    ->     FOREIGN KEY (`department_id`)
+    ->     REFERENCES `practical_q9`.`department` (`department_id`)
+    ->     ON DELETE NO ACTION
+    ->     ON UPDATE CASCADE));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 23
+mysql> CREATE TABLE `practical_q9`.`employees` (   `employee_id` VARCHAR(20) NOT NULL,   `first_name` VARCHAR(20) NOT NULL,   `last_name` VARCHAR(20) NOT NULL,
+  `email` VARCHAR(50) NOT NULL,   `ph_no` VARCHAR(10) NOT NULL,   `hire_date` DATE NOT NULL,   `job_id` VARCHAR(20) NOT NULL,   `salary` INT NOT NULL,   `department_id` VARCHAR(20) NOT NULL,   PRIMARY KEY (`employee_id`),   INDEX `fk_job_id_from_job_idx` (`job_id` ASC) VISIBLE,   INDEX `fk_department_id_from_department_idx` (`department_id` ASC) VISIBLE,   CONSTRAINT `fk_job_id_from_job`     FOREIGN KEY (`job_id`)     REFERENCES `practical_q9`.`job` (`job_id`)     ON DELETE NO ACTION     ON UPDATE CASCADE,   CONSTRAINT `fk_department_id_from_department`
+    FOREIGN KEY (`department_id`)     REFERENCES `practical_q9`.`department` (`department_id`)     ON DELETE NO ACTION     ON UPDATE CASCADE);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE TABLE `practical_q9`.`works` (
+    ->   `employee_id` VARCHAR(20) NOT NULL,
+    ->   `manager_id` VARCHAR(20) NULL,
+    ->   PRIMARY KEY (`employee_id`),
+    ->   INDEX `fk_employee_id_from_employee_as_manager_idx` (`manager_id` ASC) VISIBLE,
+    ->   CONSTRAINT `fk_employee_id_from_employee`
+    ->     FOREIGN KEY (`employee_id`)
+    ->     REFERENCES `practical_q9`.`employees` (`employee_id`)
+    ->     ON DELETE NO ACTION
+    ->     ON UPDATE CASCADE,
+    ->   CONSTRAINT `fk_employee_id_from_employee_as_manager`
+    ->     FOREIGN KEY (`manager_id`)
+    ->     REFERENCES `practical_q9`.`employees` (`employee_id`)
+    ->     ON DELETE NO ACTION
+    ->     ON UPDATE CASCADE);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE TABLE `practical_q9`.`job_history` (
+    ->   `employee_id` VARCHAR(20) NOT NULL,
+    ->   `leaving_date` DATE NOT NULL,
+    ->   `job_id` VARCHAR(20) NOT NULL,
+    ->   `department_id` VARCHAR(20) NOT NULL,
+    ->   INDEX `fk_employee_id_from_employees_into_job_history_idx` (`employee_id` ASC) VISIBLE,
+    ->   INDEX `fk_job_id_from_job_into_job_history_idx` (`job_id` ASC) VISIBLE, 
+    ->   INDEX `fk_department_id_from_job_into_job_history_idx` (`department_id` ASC) VISIBLE,
+    ->   CONSTRAINT `fk_employee_id_from_employees_into_job_history`
+    ->     FOREIGN KEY (`employee_id`)
+    ->     REFERENCES `practical_q9`.`employees` (`employee_id`)
+    ->     ON DELETE NO ACTION
+    ->     ON UPDATE NO ACTION,
+    ->   CONSTRAINT `fk_job_id_from_job_into_job_history`
+    ->     FOREIGN KEY (`job_id`)
+    ->     REFERENCES `practical_q9`.`job` (`job_id`)
+    ->     ON DELETE NO ACTION
+    ->     ON UPDATE NO ACTION,
+    ->   CONSTRAINT `fk_department_id_from_job_into_job_history`
+    ->     FOREIGN KEY (`department_id`)
+    ->     REFERENCES `practical_q9`.`department` (`department_id`)
+    ->     ON DELETE NO ACTION
+    ->     ON UPDATE NO ACTION);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO `practical_q9`.`job` (`job_id`, `job_title`, `min_salary`, `max_salary`) VALUES ('job-1', 'Manager', '15000', '25000');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO `practical_q9`.`job` (`job_id`, `job_title`, `min_salary`, `max_salary`) VALUES ('job-2', 'Senior Clerk', '10000', '15000');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO `practical_q9`.`job` (`job_id`, `job_title`, `min_salary`, `max_salary`) VALUES ('job-3', 'Junior clerk', '4500', '10000');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q9`.`job` (`job_id`, `job_title`, `min_salary`, `max_salary`) VALUES ('job-4', 'Employee', '4000', '8000');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q9`.`location` (`location_id`, `street`, `city`, `state`, `country`) VALUES ('20', 'MG Road', 'Pune', 'Maharahstra', 'India');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO `practical_q9`.`location` (`location_id`, `street`, `city`, `state`, `country`) VALUES ('30', 'College Road', 'Nashik', 'Maharashtra', 'India');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q9`.`location` (`location_id`, `street`, `city`, `state`, `country`) VALUES ('50', 'Times Square', 'New York City', 'New York', 'USA');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q9`.`location` (`location_id`, `street`, `city`, `state`, `country`) VALUES ('40', 'Rajpath', 'Delhi', 'Delhi', 'India');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q9`.`department` (`department_id`, `dept_name`, `location_id`) VALUES ('22', 'IT', '30');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO `practical_q9`.`department` (`department_id`, `dept_name`, `location_id`) VALUES ('30', 'Finance', '50');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q9`.`department` (`department_id`, `dept_name`, `location_id`) VALUES ('45', 'Foreign Affairs', '20');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q9`.`department` (`department_id`, `dept_name`, `location_id`) VALUES ('12', 'Administration', '40');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO `practical_q9`.`employees` (`employee_id`, `first_name`, `last_name`, `email`, `ph_no`, `hire_date`, `job_id`, `salary`, `department_id`) VALUES ('emp-1', 'Abhishek', 'Jadhav', 'abhishek@gmail.com', '7030405299', '2006-03-15', 'job-1', '20000', '45');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO `practical_q9`.`employees` (`employee_id`, `first_name`, `last_name`, `email`, `ph_no`, `hire_date`, `job_id`, `salary`, `department_id`) VALUES ('emp-2', 'Abhijeet', 'Ingle', 'abhijeet@gmail.com', '1234567890', '2006-04-15', 'job-2', '12000', '30');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q9`.`employees` (`employee_id`, `first_name`, `last_name`, `email`, `ph_no`, `hire_date`, `job_id`, `salary`, `department_id`) VALUES ('emp-3', 'Atharva', 'Kinikar', 'atharva@gmail.com', '1234567890', '2006-05-02', 'job-2', '12000', '22');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q9`.`employees` (`employee_id`, `first_name`, `last_name`, `email`, `ph_no`, `hire_date`, `job_id`, `salary`, `department_id`) VALUES ('emp-4', 'Shlok', 'Hinge', 'shlok@gmail.com', '1234567890', '2006-04-15', 'job-3', '8000', '12');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q9`.`employees` (`employee_id`, `first_name`, `last_name`, `email`, `ph_no`, `hire_date`, `job_id`, `salary`, `department_id`) VALUES ('emp-5', 'Pratik', 'Gabhale', 'pratik@gmail.com', '1234567890', '2005-04-15', 'job-1', '18000', '30');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q9`.`employees` (`employee_id`, `first_name`, `last_name`, `email`, `ph_no`, `hire_date`, `job_id`, `salary`, `department_id`) VALUES ('emp-6', 'Tanmay', 'Gore', 'tanmay@gmail.com', '1234567890', '2006-01-12', 'job-4', '7000', '30');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO `practical_q9`.`works` (`employee_id`, `manager_id`) VALUES ('emp-2', 'emp-1');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO `practical_q9`.`works` (`employee_id`, `manager_id`) VALUES ('emp-4', 'emp-5');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q9`.`works` (`employee_id`, `manager_id`) VALUES ('emp-3', 'emp-1');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q9`.`works` (`employee_id`) VALUES ('emp-6');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO  practical_q9.job_history VALUES("emp-2",'2022-06-15');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO  practical_q9.job_history VALUES("emp-3",'2022-07-05');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO  practical_q9.job_history VALUES("emp-4",'2022-06-1');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> show tables;
++------------------------+
+| Tables_in_practical_q9 |
++------------------------+
+| department             |
+| employees              |
+| job                    |
+| job_history            |
+| location               |
+| works                  |
++------------------------+
+6 rows in set (0.01 sec)
+
+mysql> desc job_hisory;
+ERROR 1146 (42S02): Table 'practical_q9.job_hisory' doesn't exist
+mysql> desc job_history;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| employee_id   | varchar(20) | NO   | MUL | NULL    |       |
+| leaving_date  | date        | NO   |     | NULL    |       |
+| job_id        | varchar(20) | NO   | MUL | NULL    |       |
+| department_id | varchar(20) | NO   | MUL | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from job_history;
+Empty set (0.00 sec)
+
+mysql> insert into job_history(empolyee_id,leaving_date) values("emp-2",'2022-06-15');
+ERROR 1054 (42S22): Unknown column 'empolyee_id' in 'field list'
+mysql> insert into job_history(employee_id,leaving_date) values("emp-2",'2022-06-15');
+ERROR 1364 (HY000): Field 'job_id' doesn't have a default value
+mysql> insert into job_history(employee_id,leaving_date,job_id) values("emp-2",'2022-06-15','job-1');
+ERROR 1364 (HY000): Field 'department_id' doesn't have a default value
+mysql> insert into job_history(employee_id,leaving_date,job_id^Cvalues("emp-2",'2022-06-15','job-1');
+mysql> insert into job_history(employee_id,leaving_date,job_id,department_id) values("emp-2",'2022-06-15','job-1','45');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into job_history(employee_id,leaving_date,job_id,department_id) values("emp-3",'2022-06-15','job-2','30');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into job_history(employee_id,leaving_date,job_id,department_id) values("emp-4",'2022-07-15','job-3','22');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select employee.* from employee order by employee.salary desc;
+ERROR 1146 (42S02): Table 'practical_q9.employee' doesn't exist
+mysql> select * from employee;
+ERROR 1146 (42S02): Table 'practical_q9.employee' doesn't exist
+mysql> select * from employees;
++-------------+------------+-----------+--------------------+------------+------------+--------+--------+---------------+
+| employee_id | first_name | last_name | email              | ph_no      | hire_date  | job_id | salary | department_id |
++-------------+------------+-----------+--------------------+------------+------------+--------+--------+---------------+
+| emp-1       | Abhishek   | Jadhav    | abhishek@gmail.com | 7030405299 | 2006-03-15 | job-1  |  20000 | 45            |
+| emp-2       | Abhijeet   | Ingle     | abhijeet@gmail.com | 1234567890 | 2006-04-15 | job-2  |  12000 | 30            |
+| emp-3       | Atharva    | Kinikar   | atharva@gmail.com  | 1234567890 | 2006-05-02 | job-2  |  12000 | 22            |
+| emp-4       | Shlok      | Hinge     | shlok@gmail.com    | 1234567890 | 2006-04-15 | job-3  |   8000 | 12            |
+| emp-5       | Pratik     | Gabhale   | pratik@gmail.com   | 1234567890 | 2005-04-15 | job-1  |  18000 | 30            |
+| emp-6       | Tanmay     | Gore      | tanmay@gmail.com   | 1234567890 | 2006-01-12 | job-4  |   7000 | 30            |
++-------------+------------+-----------+--------------------+------------+------------+--------+--------+---------------+
+6 rows in set (0.00 sec)
+
+mysql> select employees.* from employee order by employees.salary desc;
+ERROR 1146 (42S02): Table 'practical_q9.employee' doesn't exist
+mysql> select employees.* from employees order by employees.salary desc;
++-------------+------------+-----------+--------------------+------------+------------+--------+--------+---------------+
+| employee_id | first_name | last_name | email              | ph_no      | hire_date  | job_id | salary | department_id |
++-------------+------------+-----------+--------------------+------------+------------+--------+--------+---------------+
+| emp-1       | Abhishek   | Jadhav    | abhishek@gmail.com | 7030405299 | 2006-03-15 | job-1  |  20000 | 45            |
+| emp-5       | Pratik     | Gabhale   | pratik@gmail.com   | 1234567890 | 2005-04-15 | job-1  |  18000 | 30            |
+| emp-2       | Abhijeet   | Ingle     | abhijeet@gmail.com | 1234567890 | 2006-04-15 | job-2  |  12000 | 30            |
+| emp-3       | Atharva    | Kinikar   | atharva@gmail.com  | 1234567890 | 2006-05-02 | job-2  |  12000 | 22            |
+| emp-4       | Shlok      | Hinge     | shlok@gmail.com    | 1234567890 | 2006-04-15 | job-3  |   8000 | 12            |
+| emp-6       | Tanmay     | Gore      | tanmay@gmail.com   | 1234567890 | 2006-01-12 | job-4  |   7000 | 30            |
++-------------+------------+-----------+--------------------+------------+------------+--------+--------+---------------+
+6 rows in set (0.00 sec)
+
+mysql> select employees.employee_id ,employees.first_name ,employees.last_name,employees.salary from employees where hire_date='2006' order byhire_date desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'byhire_date desc' at line 1
+mysql> select employees.employee_id ,employees.first_name ,employees.last_name,employees.salary from employees where hire_date='2006' order by hire_date desc;
+ERROR 1525 (HY000): Incorrect DATE value: '2006'
+mysql> select employees.employee_id ,employees.first_name ,employees.last_name,employees.salary from employees where year(hire_date)='2006' order by hire_date desc;
++-------------+------------+-----------+--------+
+| employee_id | first_name | last_name | salary |
++-------------+------------+-----------+--------+
+| emp-3       | Atharva    | Kinikar   |  12000 |
+| emp-2       | Abhijeet   | Ingle     |  12000 |
+| emp-4       | Shlok      | Hinge     |   8000 |
+| emp-1       | Abhishek   | Jadhav    |  20000 |
+| emp-6       | Tanmay     | Gore      |   7000 |
++-------------+------------+-----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select department.* from department where location_id='20'or location_id='30'or location_id='50';
++---------------+-----------------+-------------+
+| department_id | dept_name       | location_id |
++---------------+-----------------+-------------+
+| 45            | Foreign Affairs | 20          |
+| 22            | IT              | 30          |
+| 30            | Finance         | 50          |
++---------------+-----------------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM department WHERE department.location_id IN (20, 30, 50);
++---------------+-----------------+-------------+
+| department_id | dept_name       | location_id |
++---------------+-----------------+-------------+
+| 22            | IT              | 30          |
+| 30            | Finance         | 50          |
+| 45            | Foreign Affairs | 20          |
++---------------+-----------------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> select empolyees.first_name , employees.last_name where first_name like('a%') or last_name like('a%');
+ERROR 1109 (42S02): Unknown table 'empolyees' in field list
+mysql> select employees.first_name , employees.last_name where first_name like('a%') or last_name like('a%');
+ERROR 1109 (42S02): Unknown table 'employees' in field list
+mysql> select employees.first_name , employees.last_name from employees where first_name like('a%') or last_name like('a%');
++------------+-----------+
+| first_name | last_name |
++------------+-----------+
+| Abhishek   | Jadhav    |
+| Abhijeet   | Ingle     |
+| Atharva    | Kinikar   |
++------------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT department.*, COUNT(*) AS `Maximum no. of employees` FROM department INNER JOIN employees ON department.department_id=employees.department_id GROUP BY employees.department_id ORDER BY `Maximum no. of employees` DESC LIMIT 1;
++---------------+-----------+-------------+--------------------------+
+| department_id | dept_name | location_id | Maximum no. of employees |
++---------------+-----------+-------------+--------------------------+
+| 30            | Finance   | 50          |                        3 |
++---------------+-----------+-------------+--------------------------+
+1 row in set (0.00 sec)
+
+mysql> CREATE  OR REPLACE VIEW `average_salary_of_empployees_in_each_department` AS SELECT department.*, AVG(employees.salary) AS `Average salary of department employees` FROM department INNER JOIN employees ON department.department_id=employees.department_id WHERE department.department_id=employees.department_id GROUP BY department.department_id;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SELECT * FROM `average_salary_of_empployees_in_each_department` WHERE `Average salary of department employees` > (SELECT AVG(employees.salary) FROM department INNER JOIN employees ON department.department_id=employees.department_id WHERE department.department_id="30");
++---------------+-----------------+-------------+----------------------------------------+
+| department_id | dept_name       | location_id | Average salary of department employees |
++---------------+-----------------+-------------+----------------------------------------+
+| 45            | Foreign Affairs | 20          |                             20000.0000 |
++---------------+-----------------+-------------+----------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> CREATE 
+    ->      OR REPLACE ALGORITHM = UNDEFINED 
+    ->     DEFINER = `Abhishek_Jadhav`@`%` 
+    ->     SQL SECURITY DEFINER
+    -> VIEW `min_salary_of_employee_under_a_manager` AS
+    ->     SELECT 
+    ->         `employees`.`employee_id` AS `employee_id`,
+    ->         MIN(`employees`.`salary`) AS `MIN(employees.salary)`
+    ->     FROM
+    ->         `employees`
+    ->         JOIN `works` ON `employees`.`employee_id` = `works`.`employee_id` AND `works`.`manager_id` IS NOT NULL 
+    ->     GROUP BY `works`.`manager_id`;
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> ELECT `min_salary_of_employee_under_a_manager`.*, employees.* FROM `min_salary_of_employee_under_a_manager` INNER JOIN employees ON `min_salary_of_employee_under_a_manager`.employee_id=employees.employee_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ELECT `min_salary_of_employee_under_a_manager`.*, employees.* FROM `min_salary_o' at line 1
+mysql> SELECT `min_salary_of_employee_under_a_manager`.*, employees.* FROM `min_salary_of_employee_under_a_manager` INNER JOIN employees ON `min_salary_of_employee_under_a_manager`.employee_id=employees.employee_id;
+ERROR 1449 (HY000): The user specified as a definer ('Abhishek_Jadhav'@'%') does not exist
+mysql> SELECT `min_salary_of_employee_under_a_manager`.*, employees.* FROM `min_salary_of_employee_under_a_manager` INNER JOIN employees ON `min_salary_of_employee_under_a_manager`.employee_id=employees.employee_id;
+ERROR 1449 (HY000): The user specified as a definer ('Abhishek_Jadhav'@'%') does not exist
+mysql> SELECT `min_salary_of_employee_under_a_manager`.*, employees.* FROM `min_salary_of_employee_under_a_manager` INNER JOIN employees ON `min_salary_of_employee_under_a_manager`.employee_id=employees.employee_id;
+ERROR 1449 (HY000): The user specified as a definer ('Abhishek_Jadhav'@'%') does not exist
+mysql> CREATE VIEW `min_salary_of_employee_under_a_manager` AS
+    ->     SELECT 
+    ->         `employees`.`employee_id` AS `employee_id`,
+    ->         MIN(`employees`.`salary`) AS `MIN(employees.salary)`
+    ->     FROM
+    ->         `employees`
+    ->         JOIN `works` ON `employees`.`employee_id` = `works`.`employee_id` AND `works`.`manager_id` IS NOT NULL 
+    ->     GROUP BY `works`.`manager_id`;
+ERROR 1050 (42S01): Table 'min_salary_of_employee_under_a_manager' already exists
+mysql> CREATE VIEW `min_salary_of_employee_under_manager` AS     SELECT          `employees`.`employee_id` AS `employee_id`,         MIN(`employees`.`salary`) AS `MIN(employees.salary)`     FROM         `employees`         JOIN `works` ON `employees`.`employee_id` = `works`.`employee_id` AND `works`.`manager_id` IS NOT NULL      GROUP BY `works`.`manager_id`;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT `min_salary_of_employee_under_manager`.*, employees.* FROM `min_salary_of_employee_under_a_manager` INNER JOIN employees ON `min_salary_of_employee_under_a_manager`.employee_id=employees.employee_id;
+ERROR 1449 (HY000): The user specified as a definer ('Abhishek_Jadhav'@'%') does not exist
+mysql> SELECT `min_salary_of_employee_under_manager`.*, employees.* FROM `min_salary_of_employee_under_a_manager` INNER JOIN employees ON `min_salary_of_employee_under_a_manager`.employee_id=employees.employee_id;
+ERROR 1449 (HY000): The user specified as a definer ('Abhishek_Jadhav'@'%') does not exist
+mysql> 
+
+

@@ -1,0 +1,170 @@
+omickeyee@omickeyee-HP-Pavilion-Laptop-15-cc1xx:~$ sudo mysql
+[sudo] password for omickeyee: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 14
+Server version: 8.0.29-0ubuntu0.22.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.00 sec)
+
+mysql> create database q1;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use q1;
+Database changed
+mysql> create table customer(
+    -> customer_id int NOT NULL
+    -> customer_name varchar(20) NOT NULL
+    -> address varchar(25) NOT NULL
+    -> primary key(customer_id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'customer_name varchar(20) NOT NULL
+address varchar(25) NOT NULL
+primary key(cust' at line 3
+mysql> create table customer( customer_id int NOT NULL, customer_name varchar(20) NOT NULL, address varchar(25) NOT NULL, primary key(customer_id));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table loan(loan_id int NOT NULL ,loan_tv varchar(25) NOT NULL,amount int NOT NULL ,customer_id int NOT NULL, primary key(loan_id) ,foreign key(customer_id) references customer(customer_id));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table department(customer_id int NOT NULL ,dep_no int NOT NULL, relation varchar(25) NOT NULL ,dep_name varchar(25) NOT NULL ,primary key(customer_id) , foreign key (customer_id) references customer(customer_id));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc customer;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| customer_id   | int         | NO   | PRI | NULL    |       |
+| customer_name | varchar(20) | NO   |     | NULL    |       |
+| address       | varchar(25) | NO   |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> desc loan;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| loan_id     | int         | NO   | PRI | NULL    |       |
+| loan_tv     | varchar(25) | NO   |     | NULL    |       |
+| amount      | int         | NO   |     | NULL    |       |
+| customer_id | int         | NO   | MUL | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc department;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| customer_id | int         | NO   | PRI | NULL    |       |
+| dep_no      | int         | NO   |     | NULL    |       |
+| relation    | varchar(25) | NO   |     | NULL    |       |
+| dep_name    | varchar(25) | NO   |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> insert into customer (customer_id ,customer_name ,address)
+    -> values(101 ,mike ,pune)
+    -> values(201,blaze,mumbai)
+    -> values(301,draco, aurangabad);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'values(201,blaze,mumbai)
+values(301,draco, aurangabad)' at line 3
+mysql> insert into customer (customer_id ,customer_name ,address)
+    -> values(101 ,mike ,pune)
+    -> ;
+ERROR 1054 (42S22): Unknown column 'mike' in 'field list'
+mysql> insert into customer (customer_id ,customer_name ,address) values(101 ,'mike' ,'pune');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into customer (customer_id ,customer_name ,address) values(101 ,'blaze' ,'mumbai');
+ERROR 1062 (23000): Duplicate entry '101' for key 'customer.PRIMARY'
+mysql> insert into customer (customer_id ,customer_name ,address) values(201 ,'blaze' ,'mumbai');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into customer (customer_id ,customer_name ,address) values(301 ,'draco' ,'delhi');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> desc customer;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| customer_id   | int         | NO   | PRI | NULL    |       |
+| customer_name | varchar(20) | NO   |     | NULL    |       |
+| address       | varchar(25) | NO   |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from customer_id;
+ERROR 1146 (42S02): Table 'q1.customer_id' doesn't exist
+mysql> select * from customer;
++-------------+---------------+---------+
+| customer_id | customer_name | address |
++-------------+---------------+---------+
+|         101 | mike          | pune    |
+|         201 | blaze         | mumbai  |
+|         301 | draco         | delhi   |
++-------------+---------------+---------+
+3 rows in set (0.00 sec)
+
+mysql> insert into loan(loan_id, loan_tv,amount,customer_id)
+    -> values(1001, 'sony' ,10000,101)
+    -> values(1002, 'philips' ,20000,201)
+    -> values(1003, 'hp' ,30000,301);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'values(1002, 'philips' ,20000,201)
+values(1003, 'hp' ,30000,301)' at line 3
+mysql> insert into loan(loan_id, loan_tv,amount,customer_id) values(1001, 'sony' ,10000,101);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into loan(loan_id, loan_tv,amount,customer_id) values(1002, 'hp' ,20000,201);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into loan(loan_id, loan_tv,amount,customer_id) values(1003, 'philips' ,30000 ,301);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from loan;
++---------+---------+--------+-------------+
+| loan_id | loan_tv | amount | customer_id |
++---------+---------+--------+-------------+
+|    1001 | sony    |  10000 |         101 |
+|    1002 | hp      |  20000 |         201 |
+|    1003 | philips |  30000 |         301 |
++---------+---------+--------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into department(customer_id ,dep_no,relation ,dep_name)
+    -> values(101,4001,'mother', 'jr mike');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into department(customer_id ,dep_no,relation ,dep_name) values(201,4002,'father', 'jr blaze');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into department(customer_id ,dep_no,relation ,dep_name) values(301,4003,'brother', 'jr draco');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from department;
++-------------+--------+----------+----------+
+| customer_id | dep_no | relation | dep_name |
++-------------+--------+----------+----------+
+|         101 |   4001 | mother   | jr mike  |
+|         201 |   4002 | father   | jr blaze |
+|         301 |   4003 | brother  | jr draco |
++-------------+--------+----------+----------+
+3 rows in set (0.00 sec)
+
+
+
+

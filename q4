@@ -1,0 +1,200 @@
+omickeyee@omickeyee-HP-Pavilion-Laptop-15-cc1xx:~$ sudo mysql
+[sudo] password for omickeyee: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 20
+Server version: 8.0.29-0ubuntu0.22.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database q4;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use q4;
+Database changed
+mysql> create table emp(emp_id int NOT NULL,e_name varchar(25) NOT NULL,city varchar(25) NOT NULL ,state varchar(20) NOT NULL,salary int NOT NULL,age int NOT NULL,hire_date date NOT NULL);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc emp;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| emp_id    | int         | NO   |     | NULL    |       |
+| e_name    | varchar(25) | NO   |     | NULL    |       |
+| city      | varchar(25) | NO   |     | NULL    |       |
+| state     | varchar(20) | NO   |     | NULL    |       |
+| salary    | int         | NO   |     | NULL    |       |
+| age       | int         | NO   |     | NULL    |       |
+| hire_date | date        | NO   |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+mysql> alter table emp 
+    -> add primary key(emp_id);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc emp;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| emp_id    | int         | NO   | PRI | NULL    |       |
+| e_name    | varchar(25) | NO   |     | NULL    |       |
+| city      | varchar(25) | NO   |     | NULL    |       |
+| state     | varchar(20) | NO   |     | NULL    |       |
+| salary    | int         | NO   |     | NULL    |       |
+| age       | int         | NO   |     | NULL    |       |
+| hire_date | date        | NO   |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+mysql> insert into emp(emp_id ,e_name , city  ,state,salary  ,age  ,hire_date)
+    -> values(101 ,'sanika','pune' ,'maharastra',25000,20,2022-01-22);
+ERROR 1292 (22007): Incorrect date value: '1999' for column 'hire_date' at row 1
+mysql> insert into emp(emp_id ,e_name , city  ,state,salary  ,age  ,hire_date) values(101 ,'sanika','pune' ,'maharastra',25000,20,2011-01-22);
+
+ERROR 1292 (22007): Incorrect date value: '1988' for column 'hire_date' at row 1
+mysql> insert into emp(emp_id ,e_name , city  ,state,salary  ,age  ,hire_date) values(101 ,'sanika','pune' ,'maharastra',25000,20,2022-01-22);
+
+ERROR 1292 (22007): Incorrect date value: '1999' for column 'hire_date' at row 1
+mysql> insert into emp(emp_id ,e_name , city  ,state,salary  ,age  ,hire_date) values(101 ,'sanika','pune' ,'maharastra',25000,20,1999-01-22);
+
+ERROR 1292 (22007): Incorrect date value: '1976' for column 'hire_date' at row 1
+mysql> insert into emp(emp_id ,e_name , city  ,state,salary  ,age  ,hire_date) values(101 ,'sanika','pune' ,'maharastra',25000,20, '1999-01-2'2);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '2)' at line 1
+mysql> insert into emp(emp_id ,e_name , city  ,state,salary  ,age  ,hire_date) values(101 ,'sanika','pune' ,'maharastra',25000,20, '2022-01-22');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into emp(emp_id ,e_name , city  ,state,salary  ,age  ,hire_date) values(102 ,'sanyog','mumbai' ,'maharastra',27000,21, '2022-02-22');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into emp(emp_id ,e_name , city  ,state,salary  ,age  ,hire_date) values(103 ,'blaze','mumbai' ,'maharastra',28000,22, '2022-02-12');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into emp(emp_id ,e_name , city  ,state,salary  ,age  ,hire_date) values(104 ,'mike','aurangabad' ,'maharastra',32000,22, '2022-03-12');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into emp(emp_id ,e_name , city  ,state,salary  ,age  ,hire_date) values(105 ,'draco','aurangabad' ,'maharastra',35000,23, '2022-04-12');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from emp;
++--------+--------+------------+------------+--------+-----+------------+
+| emp_id | e_name | city       | state      | salary | age | hire_date  |
++--------+--------+------------+------------+--------+-----+------------+
+|    101 | sanika | pune       | maharastra |  25000 |  20 | 2022-01-22 |
+|    102 | sanyog | mumbai     | maharastra |  27000 |  21 | 2022-02-22 |
+|    103 | blaze  | mumbai     | maharastra |  28000 |  22 | 2022-02-12 |
+|    104 | mike   | aurangabad | maharastra |  32000 |  22 | 2022-03-12 |
+|    105 | draco  | aurangabad | maharastra |  35000 |  23 | 2022-04-12 |
++--------+--------+------------+------------+--------+-----+------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from emp where e_name like 'sa%';
++--------+--------+--------+------------+--------+-----+------------+
+| emp_id | e_name | city   | state      | salary | age | hire_date  |
++--------+--------+--------+------------+--------+-----+------------+
+|    101 | sanika | pune   | maharastra |  25000 |  20 | 2022-01-22 |
+|    102 | sanyog | mumbai | maharastra |  27000 |  21 | 2022-02-22 |
++--------+--------+--------+------------+--------+-----+------------+
+2 rows in set (0.00 sec)
+
+mysql> select e_name.emp ,salary.emp where age <40 ;
+ERROR 1109 (42S02): Unknown table 'e_name' in field list
+mysql> select emp.e_name ,emp.salary where emp.age <40 ;
+ERROR 1109 (42S02): Unknown table 'emp' in field list
+mysql> select emp.e_name emp.salary where emp.age <40 ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.salary where emp.age <40' at line 1
+mysql> select emp.e_name emp.salary from emp where emp.age <40 ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.salary from emp where emp.age <40' at line 1
+mysql> select emp.e_name, emp.salary from emp where emp.age <40 ;
++--------+--------+
+| e_name | salary |
++--------+--------+
+| sanika |  25000 |
+| sanyog |  27000 |
+| blaze  |  28000 |
+| mike   |  32000 |
+| draco  |  35000 |
++--------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select emp.emp_id ,emp.e_name from emp where emp.salary BETWEEN 20000 AND 30000;
++--------+--------+
+| emp_id | e_name |
++--------+--------+
+|    101 | sanika |
+|    102 | sanyog |
+|    103 | blaze  |
++--------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select max(salary) from emp;
++-------------+
+| max(salary) |
++-------------+
+|       35000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> drop procedure if exists max(salary);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'max(salary)' at line 1
+mysql> drop procedure if exists max(salary) from emp ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'max(salary) from emp' at line 1
+mysql> DELIMETER&&
+    -> CREATE PROCEDURE highest_salary()
+    -> begin
+    -> select * from emp order by salary desc limit 1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DELIMETER&&
+CREATE PROCEDURE highest_salary()
+begin
+select * from emp order by s' at line 1
+mysql> DELIMETER&& CREATE PROCEDURE highest_salary() begin select * from emp order by salary desc limit 1
+    -> end&&
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DELIMETER&& CREATE PROCEDURE highest_salary() begin select * from emp order by s' at line 1
+mysql> delimeter &&
+    -> create procedure highest_salary ()
+    -> begin
+    -> select * from emp order by salary desc limit 1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'delimeter &&
+create procedure highest_salary ()
+begin
+select * from emp order by' at line 1
+mysql> delimeter && create procedure highest_salary () begin select * from emp order by salary desc limit 1
+    -> end &&
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'delimeter && create procedure highest_salary () begin select * from emp order by' at line 1
+mysql> delimiter &&
+mysql> create procedure highest_salary()
+    -> begin
+    -> select * from emp order by salary desc limit 1;
+    -> end &&
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> call highest_salary;
+    -> ;
+    -> ^C
+mysql> call highest_salary();
+    -> ;
+    -> call highest_salary(salary);
+    -> 
+mysql> delimiter ;
+mysql> call highest_salary() ;
++--------+--------+------------+------------+--------+-----+------------+
+| emp_id | e_name | city       | state      | salary | age | hire_date  |
++--------+--------+------------+------------+--------+-----+------------+
+|    105 | draco  | aurangabad | maharastra |  35000 |  23 | 2022-04-12 |
++--------+--------+------------+------------+--------+-----+------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> ^C
+mysql> 
+
+

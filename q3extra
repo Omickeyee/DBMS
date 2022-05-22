@@ -1,0 +1,177 @@
+omickeyee@omickeyee-HP-Pavilion-Laptop-15-cc1xx:~$ sudo mysql
+[sudo] password for omickeyee: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 17
+Server version: 8.0.29-0ubuntu0.22.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database q3;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use q3;
+Database changed
+mysql> create table book 
+    -> (
+    -> Book_No int NOT NULL ,Book_Name varchar(25) NOT NULL,Author_name varchar(25) NOT NULL , Cost int NOT NULL , Category varchar(20) NOT NUll);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table Member (M_id int NOT NULL ,M_name varchar(25) NOT NULL ,M_ship_type varchar(20) NOT NULL ,Fees_paid int NOT NULL ,Max_Book_Allowed int NOT NULL , Penalty_Amount int NOT NULL , primary key(M_id));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table issue (Lib_issue_id int NOT NULL , Book_no int NOT NULL ,M_id int NOT NULL , issue_date date NOT NULL ,return_date date NOT NULL, primary key(Lib_issue_id), foreign key(Book_no) references book(BOOK_No) , foreign key(M_id) references Member(M_id));
+ERROR 1822 (HY000): Failed to add the foreign key constraint. Missing index for constraint 'issue_ibfk_1' in the referenced table 'book'
+mysql> create table issue (Lib_issue_id int NOT NULL , Book_no int NOT NULL ,M_id int NOT NULL , issue_date date NOT NULL ,return_date date NOT NULL, primary key(Lib_issue_id);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> create table issue (Lib_issue_id int NOT NULL , Book_no int NOT NULL ,M_id int NOT NULL , issue_date date NOT NULL ,return_date date NOT NULL, primary key(Lib_issue_id);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> create table issue (Lib_issue_id int NOT NULL  , issue_date date NOT NULL ,return_date date NOT NULL, primary key(Lib_issue_id);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> create table issue (Lib_issue_id int NOT NULL  , issue_date date NOT NULL ,return_date date NOT NULL, primary key(Lib_issue_id));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc issue;
++--------------+------+------+-----+---------+-------+
+| Field        | Type | Null | Key | Default | Extra |
++--------------+------+------+-----+---------+-------+
+| Lib_issue_id | int  | NO   | PRI | NULL    |       |
+| issue_date   | date | NO   |     | NULL    |       |
+| return_date  | date | NO   |     | NULL    |       |
++--------------+------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table issue
+    -> add foreign key(Book_no) references book(Book_no);
+ERROR 1072 (42000): Key column 'Book_no' doesn't exist in table
+mysql> alter table issue add foreign key(Book_no) references book(Book_No);
+ERROR 1072 (42000): Key column 'Book_no' doesn't exist in table
+mysql> alter table issue add foreign key(Book_no) references book(Book_No);
+ERROR 1072 (42000): Key column 'Book_no' doesn't exist in table
+mysql> alter table issue add foreign key(Book_No) references book(Book_No);
+ERROR 1072 (42000): Key column 'Book_No' doesn't exist in table
+mysql> alter table issue
+    -> add foreign key(Book_No) references book(Book_No);
+ERROR 1072 (42000): Key column 'Book_No' doesn't exist in table
+mysql> alter table issue add foreign key (Book_No) references book(Book_No);
+ERROR 1072 (42000): Key column 'Book_No' doesn't exist in table
+mysql> desc book;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Book_No     | int         | NO   |     | NULL    |       |
+| Book_Name   | varchar(25) | NO   |     | NULL    |       |
+| Author_name | varchar(25) | NO   |     | NULL    |       |
+| Cost        | int         | NO   |     | NULL    |       |
+| Category    | varchar(20) | NO   |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> alter table issue add Book_No int NOT NULL ,M_id int NOT NULL;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'M_id int NOT NULL' at line 1
+mysql> alter table issue add Book_No int NOT NULL ;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table issue add M_id int NOT NULL ;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc issue;
++--------------+------+------+-----+---------+-------+
+| Field        | Type | Null | Key | Default | Extra |
++--------------+------+------+-----+---------+-------+
+| Lib_issue_id | int  | NO   | PRI | NULL    |       |
+| issue_date   | date | NO   |     | NULL    |       |
+| return_date  | date | NO   |     | NULL    |       |
+| Book_No      | int  | NO   |     | NULL    |       |
+| M_id         | int  | NO   |     | NULL    |       |
++--------------+------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> lter table issue add foreign key (Book_No) references book(Book_No);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'lter table issue add foreign key (Book_No) references book(Book_No)' at line 1
+mysql> alter table issue add foreign key (Book_No) references book(Book_No);
+ERROR 1822 (HY000): Failed to add the foreign key constraint. Missing index for constraint 'issue_ibfk_1' in the referenced table 'book'
+mysql> alter table issue add foreign key (Book_No) references book (Book_No);
+ERROR 1822 (HY000): Failed to add the foreign key constraint. Missing index for constraint 'issue_ibfk_1' in the referenced table 'book'
+mysql> alter table issue add foreign key (Book_No) references book (Book_No);
+ERROR 1822 (HY000): Failed to add the foreign key constraint. Missing index for constraint 'issue_ibfk_1' in the referenced table 'book'
+mysql> desc book;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Book_No     | int         | NO   |     | NULL    |       |
+| Book_Name   | varchar(25) | NO   |     | NULL    |       |
+| Author_name | varchar(25) | NO   |     | NULL    |       |
+| Cost        | int         | NO   |     | NULL    |       |
+| Category    | varchar(20) | NO   |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table issue add foreign key (Book_No) references book (Book_No);
+ERROR 1822 (HY000): Failed to add the foreign key constraint. Missing index for constraint 'issue_ibfk_1' in the referenced table 'book'
+mysql> alter table issue add foreign key (M_id) references Member (M_id);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc book;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Book_No     | int         | NO   |     | NULL    |       |
+| Book_Name   | varchar(25) | NO   |     | NULL    |       |
+| Author_name | varchar(25) | NO   |     | NULL    |       |
+| Cost        | int         | NO   |     | NULL    |       |
+| Category    | varchar(20) | NO   |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> desc issue;
++--------------+------+------+-----+---------+-------+
+| Field        | Type | Null | Key | Default | Extra |
++--------------+------+------+-----+---------+-------+
+| Lib_issue_id | int  | NO   | PRI | NULL    |       |
+| issue_date   | date | NO   |     | NULL    |       |
+| return_date  | date | NO   |     | NULL    |       |
+| Book_No      | int  | NO   |     | NULL    |       |
+| M_id         | int  | NO   | MUL | NULL    |       |
++--------------+------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table issue add foreign key (Book_No) references book (Book_No);
+ERROR 1822 (HY000): Failed to add the foreign key constraint. Missing index for constraint 'issue_ibfk_2' in the referenced table 'book'
+mysql> alter table issue add foreign key (Book_No) references Book (Book_No);
+ERROR 1824 (HY000): Failed to open the referenced table 'Book'
+mysql> alter table book add primary key (Book_No);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table issue add foreign key (Book_No) references Book (Book_No);
+ERROR 1824 (HY000): Failed to open the referenced table 'Book'
+mysql> alter table issue add foreign key (Book_No) references book (Book_No);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc issue;
++--------------+------+------+-----+---------+-------+
+| Field        | Type | Null | Key | Default | Extra |
++--------------+------+------+-----+---------+-------+
+| Lib_issue_id | int  | NO   | PRI | NULL    |       |
+| issue_date   | date | NO   |     | NULL    |       |
+| return_date  | date | NO   |     | NULL    |       |
+| Book_No      | int  | NO   | MUL | NULL    |       |
+| M_id         | int  | NO   | MUL | NULL    |       |
++--------------+------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> INSERT INTO book (`book_no`, `book_name`, `author_name`, `cost`, `category`) VALUES ('Book-1', 'Physics', 'Scott Urman', '500', 'Science');
+ERROR 1366 (HY000): Incorrect integer value: 'Book-1' for column 'Book_No' at row 1
+mysql> INSERT INTO book (`book_no`, `book_name`, `author_name`, `cost`, `category`) VALUES ('Book-1', 'Physics', 'Scott Urman', '500', 'Science');
+
+

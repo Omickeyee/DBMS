@@ -1,0 +1,336 @@
+omickeyee@omickeyee-HP-Pavilion-Laptop-15-cc1xx:~$ sudo mysql
+[sudo] password for omickeyee: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 21
+Server version: 8.0.29-0ubuntu0.22.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database q5;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use q5;
+Database changed
+mysql> create table dept(dept_no int NOT NULL,d_name varchar(25) NOT NULL, loc v
+archar(25) , primary key(dept_no));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table project(project_no int NOT NULL ,proj_name varchar(25) NOT NULL, status varchar(25) NOT NULL, primary key(project_no));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create emp(emp_no int NOT NULL, e_name varchar(25) NOT NULL , designation varchar(25) NOT NULL , sal int NOT NULL , dept_no int NOT NULL, project_no int NOT NULL, primary key(emp_no));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'emp(emp_no int NOT NULL, e_name varchar(25) NOT NULL , designation varchar(25) N' at line 1
+mysql> create emp(emp_no int NOT NULL, e_name varchar(25) NOT NULL , designation varchar(25) NOT NULL , sal int NOT NULL , dept_no int NOT NULL, project_no int
+NOT NULL, primary key(emp_no));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'emp(emp_no int NOT NULL, e_name varchar(25) NOT NULL , designation varchar(25) N' at line 1
+mysql> create table emp(emp_no int NOT NULL, e_name varchar(25) NOT NULL , designation varchar(25) NOT NULL , sal int NOT NULL , dept_no int N
+OT NULL, project_no int NOT NULL, primary key(emp_no));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> alter table emp
+    -> add foreign key(dept_no) references dept(dept_no);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table emp
+    -> add foreign key(project_no) references project(project_no);
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc dept;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| dept_no | int         | NO   | PRI | NULL    |       |
+| d_name  | varchar(25) | NO   |     | NULL    |       |
+| loc     | varchar(25) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> desc emp;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| emp_no      | int         | NO   | PRI | NULL    |       |
+| e_name      | varchar(25) | NO   |     | NULL    |       |
+| designation | varchar(25) | NO   |     | NULL    |       |
+| sal         | int         | NO   |     | NULL    |       |
+| dept_no     | int         | NO   | MUL | NULL    |       |
+| project_no  | int         | NO   | MUL | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+mysql> desc project;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| project_no | int         | NO   | PRI | NULL    |       |
+| proj_name  | varchar(25) | NO   |     | NULL    |       |
+| status     | varchar(25) | NO   |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO dept (`dept_no`, `d_name`, `lOC`) VALUES ('1', 'MARKETING', 'Pune');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO dept (`dept_no`, `d_name`, `lOC`) VALUES ('2', 'CS', 'Nashik');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO dept (`dept_no`, `d_name`, `lOC`) VALUES ('3', 'INVENTARY', 'Pune');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO dept (`dept_no`, `d_name`, `lOC`) VALUES ('10', 'DEVELOPEMENT', 'US');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO dept (`dept_no`, `d_name`, `lOC`) VALUES ('20', 'FINANCE', 'US');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO project (`project_no`, `proj_name`, `status`) VALUES ('1', 'Blood Bank', '0');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO project (`project_no`, `proj_name`, `status`) VALUES ('2', 'Donation Portal', '1');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO project (`project_no`, `proj_name`, `status`) VALUES ('3', 'Help Desk', '1');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO project (`project_no`, `proj_name`, `status`) VALUES ('4', 'Security', '0');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO emp (`emp_no`, `e_name`, `designation`, `sal`, `dept_no`, `proj_no`) VALUES ('101', 'Abhishek', 'Manager', '120000', '1', '2');
+ERROR 1054 (42S22): Unknown column 'proj_no' in 'field list'
+mysql> INSERT INTO emp (`emp_no`, `e_name`, `designation`, `sal`, `dept_no`, `proj_no`) VALUES ('102', 'Abhijeet', 'Manager', '120000', '3', '1');
+ERROR 1054 (42S22): Unknown column 'proj_no' in 'field list'
+mysql> INSERT INTO emp (`emp_no`, `e_name`, `designation`, `sal`, `dept_no`, `proj_no`) VALUES ('103', 'Bezos', 'Clerk', '50000', '10', '3');
+ERROR 1054 (42S22): Unknown column 'proj_no' in 'field list'
+mysql> INSERT INTO emp (`emp_no`, `e_name`, `designation`, `sal`, `dept_no`, `proj_no`) VALUES ('104', 'Pratik', 'Manager', '120000', '20', '4');
+ERROR 1054 (42S22): Unknown column 'proj_no' in 'field list'
+mysql> INSERT INTO emp (`emp_no`, `e_name`, `designation`, `sal`, `dept_no`, `project_no`) VALUES ('101', 'Abhishek', 'Manager', '120000', '1', '2');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO emp (`emp_no`, `e_name`, `designation`, `sal`, `dept_no`, `project_no`) VALUES ('102', 'Abhijeet', 'Manager', '120000', '3', '1');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO emp (`emp_no`, `e_name`, `designation`, `sal`, `dept_no`, `project_no`) VALUES ('103', 'Bezos', 'Clerk', '50000', '10', '3');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO emp (`emp_no`, `e_name`, `designation`, `sal`, `dept_no`, `project_no`) VALUES ('104', 'Pratik', 'Manager', '120000', '20', '4');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from dept;
++---------+--------------+--------+
+| dept_no | d_name       | loc    |
++---------+--------------+--------+
+|       1 | MARKETING    | Pune   |
+|       2 | CS           | Nashik |
+|       3 | INVENTARY    | Pune   |
+|      10 | DEVELOPEMENT | US     |
+|      20 | FINANCE      | US     |
++---------+--------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select * from emp;
++--------+----------+-------------+--------+---------+------------+
+| emp_no | e_name   | designation | sal    | dept_no | project_no |
++--------+----------+-------------+--------+---------+------------+
+|    101 | Abhishek | Manager     | 120000 |       1 |          2 |
+|    102 | Abhijeet | Manager     | 120000 |       3 |          1 |
+|    103 | Bezos    | Clerk       |  50000 |      10 |          3 |
+|    104 | Pratik   | Manager     | 120000 |      20 |          4 |
++--------+----------+-------------+--------+---------+------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from project;
++------------+-----------------+--------+
+| project_no | proj_name       | status |
++------------+-----------------+--------+
+|          1 | Blood Bank      | 0      |
+|          2 | Donation Portal | 1      |
+|          3 | Help Desk       | 1      |
+|          4 | Security        | 0      |
++------------+-----------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select emp.emp_no ,emp.e_name where dept.d_name='INVENTARY' and dept.loc='pune';
+ERROR 1109 (42S02): Unknown table 'emp' in field list
+mysql> select emp.emp_no ,emp.e_name from emp where dept.d_name='INVENTARY
+' and dept.loc='pune';
+ERROR 1054 (42S22): Unknown column 'dept.d_name' in 'where clause'
+mysql> select emp_no ,e_name from emp where dept.d_name='INVENTARY' and dept.loc='pune';
+ERROR 1054 (42S22): Unknown column 'dept.d_name' in 'where clause'
+mysql> select emp_no ,e_name from emp where d_name='INVENTARY' and loc='pune';
+ERROR 1054 (42S22): Unknown column 'd_name' in 'where clause'
+mysql> select emp_no ,e_name from emp where dept.d_name='INVENTARY' and dept.loc='pune';
+ERROR 1054 (42S22): Unknown column 'dept.d_name' in 'where clause'
+mysql> select emp.emp_no , emp.e_name from emp where dept.d_name='INVENTARY' and dept.loc='pune';
+ERROR 1054 (42S22): Unknown column 'dept.d_name' in 'where clause'
+mysql> select emp.emp_no , emp.e_name from emp where dept.d_name="INVENTARY" and dept.loc="pune";
+ERROR 1054 (42S22): Unknown column 'dept.d_name' in 'where clause'
+mysql> select emp.emp_no , emp.e_name from emp where dept.d_name="INVENTARY" and dept.loc="pune";
+ERROR 1054 (42S22): Unknown column 'dept.d_name' in 'where clause'
+mysql> select emp.emp_no , emp.e_name ,dept.dept_no  from emp,dept where dept.d_name="INVENTARY" and dept.loc="pune";
++--------+----------+---------+
+| emp_no | e_name   | dept_no |
++--------+----------+---------+
+|    101 | Abhishek |       3 |
+|    102 | Abhijeet |       3 |
+|    103 | Bezos    |       3 |
+|    104 | Pratik   |       3 |
++--------+----------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select emp.emp_no , emp.e_name   from emp inner join dept on emp.dept_no=dept.dept_no where dept.d_name="INVENTARY" and dept.loc="pune"
+;
++--------+----------+
+| emp_no | e_name   |
++--------+----------+
+|    102 | Abhijeet |
++--------+----------+
+1 row in set (0.00 sec)
+mysql> 
+mysql> select emp.emp_no ,emp.emp_name from emp inner join project on emp.proj_no=project.proj_no where proj_name =Blood Bank '
+mysql> select emp.emp_no , emp.e_name   from emp inner join dept on emp.dept_no=dept.dept_no where dept.d_name="INVENTARY" and dept.loc="pune";
++--------+----------+
+| emp_no | e_name   |
++--------+----------+
+|    102 | Abhijeet |
++--------+----------+
+1 row in set (0.00 sec)
+
+mysql> select emp.emp_no ,emp.emp_name from emp inner join project on emp.proj_no=project.proj_no where proj_name ='Blood Bank';
+ERROR 1054 (42S22): Unknown column 'emp.emp_name' in 'field list'
+mysql> select emp.emp_no ,emp.e_name from emp inner join project on emp.proj_no=project.proj_no where proj_name ='Blood Bank';
+ERROR 1054 (42S22): Unknown column 'emp.proj_no' in 'on clause'
+mysql> select emp.emp_no ,emp.e_name from emp inner join project on emp.project_no=project.project_no where proj_name ='Blood Bank';
++--------+----------+
+| emp_no | e_name   |
++--------+----------+
+|    102 | Abhijeet |
++--------+----------+
+1 row in set (0.00 sec)
+
+mysql> select emp.emp_no ,emp.designation ,dept.dept_no from emp  inner join dept on emp.dept_no=emp.dept_no where designation='Manager' and d_name =' MARKETING ';
+Empty set (0.00 sec)
+
+mysql> select emp.emp_no ,emp.designation ,dept.dept_no from emp  inner join dept on emp.dept_no=emp.dept_no where designation='Manager' and d_name ='MARKETING';
++--------+-------------+---------+
+| emp_no | designation | dept_no |
++--------+-------------+---------+
+|    104 | Manager     |       1 |
+|    102 | Manager     |       1 |
+|    101 | Manager     |       1 |
++--------+-------------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select emp.emp_no ,emp.designation ,dept.dept_no from emp  inner join dept on emp.dept_no=emp.dept_no where emp.designation='Manager' a
+nd dept.d_name ='MARKETING';
++--------+-------------+---------+
+| emp_no | designation | dept_no |
++--------+-------------+---------+
+|    104 | Manager     |       1 |
+|    102 | Manager     |       1 |
+|    101 | Manager     |       1 |
++--------+-------------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select emp.emp_no ,emp.designation ,dept.dept_no from emp  inner join dept on emp.dept_no=emp.dept_no where  dept.d_name ='MARKETING';
++--------+-------------+---------+
+| emp_no | designation | dept_no |
++--------+-------------+---------+
+|    101 | Manager     |       1 |
+|    102 | Manager     |       1 |
+|    103 | Clerk       |       1 |
+|    104 | Manager     |       1 |
++--------+-------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select emp.emp_no ,emp.designation ,dept.dept_no from emp  inner join dept on emp.dept_no=emp.dept_no where  dept.d_name ='MARKETING'and emp.designation='Manager';
++--------+-------------+---------+
+| emp_no | designation | dept_no |
++--------+-------------+---------+
+|    104 | Manager     |       1 |
+|    102 | Manager     |       1 |
+|    101 | Manager     |       1 |
++--------+-------------+---------+
+3 rows in set (0.00 sec)
+mysql> select emp.emp_no ,emp.e_name from emp inner join project on emp.proj_no=project.proj_no where status=
+    -> select emp.emp_no ,emp.e_name from emp inner join project on emp.proj_no=project.proj_no where status=0
+    -> ^C
+mysql> select emp.emp_no ,emp.e_name from emp inner join project on emp.proj_no=project.proj_no where status='0';
+ERROR 1054 (42S22): Unknown column 'emp.proj_no' in 'on clause'
+mysql> select emp.emp_no ,emp.e_name from emp inner join project on emp.project_no=project.project_no where status='0';
++--------+----------+
+| emp_no | e_name   |
++--------+----------+
+|    102 | Abhijeet |
+|    104 | Pratik   |
++--------+----------+
+2 rows in set (0.00 sec)
+
+
+mysql> delimiter &&
+mysql> create procedure emp1_details()
+    -> BEGIN
+    -> SELECT emp.*, dept.d_name, dept.loc, project.proj_name, project.status FROM emp INNER JOIN project ON emp.project_no=project.project_no 
+    ->  INNER JOIN dept ON dept.dept_no=emp.dept_no WHERE emp.emp_no=emp_no;
+    -> end &&
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call emp1_details(101) ;
+    -> ^C
+mysql> delimiter ;
+mysql> call emp1_details(101) ;
+ERROR 1318 (42000): Incorrect number of arguments for PROCEDURE q5.emp1_details; expected 0, got 1
+mysql> call emp1_details();
++--------+----------+-------------+--------+---------+------------+--------------+------+-----------------+--------+
+| emp_no | e_name   | designation | sal    | dept_no | project_no | d_name       | loc  | proj_name       | status |
++--------+----------+-------------+--------+---------+------------+--------------+------+-----------------+--------+
+|    101 | Abhishek | Manager     | 120000 |       1 |          2 | MARKETING    | Pune | Donation Portal | 1      |
+|    102 | Abhijeet | Manager     | 120000 |       3 |          1 | INVENTARY    | Pune | Blood Bank      | 0      |
+|    103 | Bezos    | Clerk       |  50000 |      10 |          3 | DEVELOPEMENT | US   | Help Desk       | 1      |
+|    104 | Pratik   | Manager     | 120000 |      20 |          4 | FINANCE      | US   | Security        | 0      |
++--------+----------+-------------+--------+---------+------------+--------------+------+-----------------+--------+
+4 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> create updateProcedure()
+    -> begin
+    -> update emp set salary=salary*120/100 where designation='clerk';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'updateProcedure()
+begin
+update emp set salary=salary*120/100 where designation='' at line 1
+mysql> update emp set sal=sal*120/100 where designation='clerk';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update emp set sal=sal*105/100 where designation='manager';
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> update emp set sal=sal*110/100 where designation!='manager' and designation !='clerk';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> end &&
+    -> ^C
+mysql> call updateProcedure() ;
+ERROR 1305 (42000): PROCEDURE q5.updateProcedure does not exist
+mysql> select emp.emp_no ,emp.designation ,dept.dept_no from emp  inner join dept on emp.dept_no=dept.dept_no where designation='Manager' and
+d_name ='MARKETING';
++--------+-------------+---------+
+| emp_no | designation | dept_no |
++--------+-------------+---------+
+|    101 | Manager     |       1 |
++--------+-------------+---------+
+1 row in set (0.00 sec)
+
+mysql> 
+
+

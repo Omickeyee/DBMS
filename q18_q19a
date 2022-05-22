@@ -1,0 +1,332 @@
+omickeyee@omickeyee-HP-Pavilion-Laptop-15-cc1xx:~$ sudo mysql
+[sudo] password for omickeyee: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 36
+Server version: 8.0.29-0ubuntu0.22.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database q18;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use q18;
+Database changed
+mysql> create table student(roll_no int NOT NULL ,name varchar (20) NOT NULL,address varchar(20) NOT NULL , primary key(roll_no));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> drop table student;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table student(roll_no varchar(20) NOT NULL ,name varchar (20) NOT
+NULL,address varchar(20) NOT NULL , primary key(roll_no));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table subject(sub_code varchar(20) NOT NULL , sub_name varchar(20)
+ NOT NULL , primary key(sub_code));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> create table Marks(roll_no varchar(20) NOT NULL ,sub_code varchar(20) NOT NULL, marks int NOT NULL);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> alter table Marks
+    -> dd foreign key(roll_no) references student(roll_no);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dd foreign key(roll_no) references student(roll_no)' at line 2
+mysql> alter table Marks
+    -> add foreign key(roll_no) references student(roll_no);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table Marks add foreign key(sub_code) references subject(sub_code); 
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| roll_no | varchar(20) | NO   | PRI | NULL    |       |
+| name    | varchar(20) | NO   |     | NULL    |       |
+| address | varchar(20) | NO   |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> desc subject;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| sub_code | varchar(20) | NO   | PRI | NULL    |       |
+| sub_name | varchar(20) | NO   |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> desc Marks;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| roll_no  | varchar(20) | NO   | MUL | NULL    |       |
+| sub_code | varchar(20) | NO   | MUL | NULL    |       |
+| marks    | int         | NO   |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into student(roll_no,name ,address) values('se101' ,'blaze' ,'pune');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student(roll_no,name ,address) values('se102' ,'mike' ,'pune');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into student(roll_no,name ,address) values('se103' ,'draco' ,'mumbai');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student(roll_no,name ,address) values('se104' ,'mako' ,'banglore');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student(roll_no,name ,address) values('se104' ,'kaya' ,'mumbai');
+ERROR 1062 (23000): Duplicate entry 'se104' for key 'student.PRIMARY'
+mysql> insert into student(roll_no,name ,address) values('se105' ,'kaya' ,'mumbai');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into subject(sub_code,sub_name) values('s-101' ,'DBMS');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into subject(sub_code,sub_name) values('s-102' ,'SE');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into subject(sub_code,sub_name) values('s-103' ,'PA');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into subject(sub_code,sub_name) values('s-104' ,'M-3');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into subject(sub_code,sub_name) values('s-105' ,'CG');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Marks(roll_no,sub_code,marks) values('se101' ,'s-101',20);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Marks(roll_no,sub_code,marks) values('se101' ,'s-102',40);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Marks(roll_no,sub_code,marks) values('se102' ,'s-102',40);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Marks(roll_no,sub_code,marks) values('se102' ,'s-103',50);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Marks(roll_no,sub_code,marks) values('se103' ,'s-104',50);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Marks(roll_no,sub_code,marks) values('se104' ,'s-104',50);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Marks(roll_no,sub_code,marks) values('se105' ,'s-105',60);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from subject;
++----------+----------+
+| sub_code | sub_name |
++----------+----------+
+| s-101    | DBMS     |
+| s-102    | SE       |
+| s-103    | PA       |
+| s-104    | M-3      |
+| s-105    | CG       |
++----------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from Marks;
++---------+----------+-------+
+| roll_no | sub_code | marks |
++---------+----------+-------+
+| se101   | s-101    |    20 |
+| se101   | s-102    |    40 |
+| se102   | s-102    |    40 |
+| se102   | s-103    |    50 |
+| se103   | s-104    |    50 |
+| se104   | s-104    |    50 |
+| se105   | s-105    |    60 |
++---------+----------+-------+
+7 rows in set (0.00 sec)
+
+mysql> select * from student;
++---------+-------+----------+
+| roll_no | name  | address  |
++---------+-------+----------+
+| se101   | blaze | pune     |
+| se102   | mike  | pune     |
+| se103   | draco | mumbai   |
+| se104   | mako  | banglore |
+| se105   | kaya  | mumbai   |
++---------+-------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select student.name ,avg(marks) from marks inner join student on student.roll_no=Marks.roll_no group by student.roll_no;
+ERROR 1146 (42S02): Table 'q18.marks' doesn't exist
+mysql> select student.name ,avg(marks) from Marks inner join student on student.roll_no=Marks.roll_no group by student.roll_no;
++-------+------------+
+| name  | avg(marks) |
++-------+------------+
+| blaze |    30.0000 |
+| mike  |    45.0000 |
+| draco |    50.0000 |
+| mako  |    50.0000 |
+| kaya  |    60.0000 |
++-------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select student.name ,avg(marks) from Marks inner join student on student.roll_no=Marks.roll_no ;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'q18.student.name'; this is incompatible with sql_mode=only_full_group_by
+mysql> select count(*), from Marks 
+    -> where sub_code in(select sub_code from subject where sub_name='DBMS') and marks<35;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from Marks 
+where sub_code in(select sub_code from subject where sub_name='DBMS'' at line 1
+mysql> select count(*) from Marks  where sub_code in(select sub_code from subject where sub_name='DBMS') and marks<35;
++----------+
+| count(*) |
++----------+
+|        1 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> delimiter &&
+mysql> create trigger trig6^C
+mysql> ;
+    -> ^C
+mysql> ;
+    -> delimiter ;
+    -> &&
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ';
+delimiter' at line 1
+mysql> select student.* from Marks inner join student on Marks.roll_no=student.roll_no where marks >75 or marks <40;
+    -> 77
+    -> &&
++---------+-------+---------+
+| roll_no | name  | address |
++---------+-------+---------+
+| se101   | blaze | pune    |
++---------+-------+---------+
+1 row in set (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '77' at line 1
+mysql> select student.* from Marks inner join student on Marks.roll_no=student.roll_no where marks <40;
+    -> &&
++---------+-------+---------+
+| roll_no | name  | address |
++---------+-------+---------+
+| se101   | blaze | pune    |
++---------+-------+---------+
+1 row in set (0.00 sec)
+
+mysql> select student.* from Marks inner join student on Marks.roll_no=student.roll_no where marks >75;
+    -> &&
+Empty set (0.00 sec)
+
+mysql> select student.* from student where address='pune';
+    -> &&
++---------+-------+---------+
+| roll_no | name  | address |
++---------+-------+---------+
+| se101   | blaze | pune    |
+| se102   | mike  | pune    |
++---------+-------+---------+
+2 rows in set (0.01 sec)
+
+mysql> delimiter &&
+mysql> &&
+ERROR: 
+No query specified
+
+mysql> create table check_table(
+    -> roll_no varchar(20),
+    -> checked varchar(20));
+    -> &&
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> delimiter &&
+mysql> create trigger check_roll
+    -> after update
+    -> on student for each row
+    -> begin
+    -> if NEW.roll_no like 'te%' then
+    -> insert into check_table(roll_no,checked)
+    -> values(NEW.roll_no,'TRUE');
+    -> else
+    -> insert into check_table(roll_no,checked)
+    -> value(NEW.roll_no,'FALSE');
+    -> END IF;
+    -> end &&
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> update student set roll_no='me101' where roll_no='se105';
+    -> &&
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`q18`.`Marks`, CONSTRAINT `Marks_ibfk_1` FOREIGN KEY (`roll_no`) REFERENCES `student` (`roll_no`))
+mysql> update student set roll_no='TE101' where roll_no='se105';
+    -> &&
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`q18`.`Marks`, CONSTRAINT `Marks_ibfk_1` FOREIGN KEY (`roll_no`) REFERENCES `student` (`roll_no`))
+mysql> update student set roll_no='TE101' where roll_no='se105';
+    -> &&
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`q18`.`Marks`, CONSTRAINT `Marks_ibfk_1` FOREIGN KEY (`roll_no`) REFERENCES `student` (`roll_no`))
+mysql> update student set roll_no='TE101 where roll_no='se105';
+    '> &&
+    '> delimiter ;
+    '> ^C
+mysql> delete from Marks where roll_no='se105';
+    -> && 
+Query OK, 1 row affected (0.01 sec)
+
+mysql> update student set roll_no='TE101 where roll_no='se105';
+    '> &&
+    '> ;
+    '>  
+    '> delimiter ;
+    '> ^C
+mysql> delimiter ;
+mysql> update student set roll_no='TE101 where roll_no='se105';
+    '> && 
+    '> ;
+    '> update student set roll_no='me101' where roll_no='se105';
+    '> && 
+    '> delimiter;
+    '> delimiter ;
+    '> ^C
+mysql> update student set roll_no='me101' where roll_no='se105'; &&
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+    -> ^C
+mysql> select * from check_table;
++---------+---------+
+| roll_no | checked |
++---------+---------+
+| me101   | FALSE   |
++---------+---------+
+1 row in set (0.00 sec)
+
+mysql> update student set roll_no='te101' where roll_no='se105'; &&
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+    -> select * from check_table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '&&
+select * from check_table' at line 1
+mysql> select * from check_table;
++---------+---------+
+| roll_no | checked |
++---------+---------+
+| me101   | FALSE   |
++---------+---------+
+1 row in set (0.00 sec)
+
+mysql> select student.name ,avg(marks) from marks inner join student on student.roll_no=Marks.roll_no;
+ERROR 1146 (42S02): Table 'q18.marks' doesn't exist
+mysql> select student.name ,avg(marks) from Marks inner join student on student.roll_no=Marks.roll_no;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'q18.student.name'; this is incompatible with sql_mode=only_full_group_by
+mysql> 
+
+

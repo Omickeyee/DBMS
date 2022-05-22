@@ -1,0 +1,214 @@
+omickeyee@omickeyee-HP-Pavilion-Laptop-15-cc1xx:~$ sudo mysql
+[sudo] password for omickeyee: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 25
+Server version: 8.0.29-0ubuntu0.22.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database practical_q8;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use practical_q8;
+Database changed
+mysql> CREATE TABLE `practical_q8`.`employee` (
+    ->   `emp_no` INT NOT NULL,
+    ->   `emp_name` VARCHAR(100) NOT NULL,
+    ->   `hiredate` DATE NOT NULL,
+    ->   `commission` INT NOT NULL,
+    ->   `netsalary` INT NOT NULL,
+    ->   `dept_no` INT NOT NULL,
+    ->   `designation` VARCHAR(20) NOT NULL,
+    ->   PRIMARY KEY (`emp_no`));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc employee;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| emp_no      | int          | NO   | PRI | NULL    |       |
+| emp_name    | varchar(100) | NO   |     | NULL    |       |
+| hiredate    | date         | NO   |     | NULL    |       |
+| commission  | int          | NO   |     | NULL    |       |
+| netsalary   | int          | NO   |     | NULL    |       |
+| dept_no     | int          | NO   |     | NULL    |       |
+| designation | varchar(20)  | NO   |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> INSERT INTO `practical_q8`.`employee` (`emp_no`, `emp_name`, `hiredate`, `commission`, `netsalary`, `dept_no`, `designation`) VALUES ('1', 'emp_name_1', '2022-10-05', '1200', '11500', '30', 'Clerk');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q8`.`employee` (`emp_no`, `emp_name`, `hiredate`, `commission`, `netsalary`, `dept_no`, `designation`) VALUES ('3', 'emp_name_2', '2021-12-28', '30000', '32000', '20', 'Clerk');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q8`.`employee` (`emp_no`, `emp_name`, `hiredate`, `commission`, `netsalary`, `dept_no`, `designation`) VALUES ('4', 'emp_name_3', '2018-11-05', '110000', '145000', '10', 'Manager');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q8`.`employee` (`emp_no`, `emp_name`, `hiredate`, `commission`, `netsalary`, `dept_no`, `designation`) VALUES ('2', 'emp_name_4', '2022-01-07', '50000', '48500', '30', 'Clerk');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q8`.`employee` (`emp_no`, `emp_name`, `hiredate`, `commission`, `netsalary`, `dept_no`, `designation`) VALUES ('6', 'emp_name_5', '2016-10-01', '98450', '112000', '10', 'President');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q8`.`employee` (`emp_no`, `emp_name`, `hiredate`, `commission`, `netsalary`, `dept_no`, `designation`) VALUES ('7', 'emp_name_6', '2020-10-15', '48000', '64000', '10', 'Clerk');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO `practical_q8`.`employee` (`emp_no`, `emp_name`, `hiredate`, `commission`, `netsalary`, `dept_no`, `designation`) VALUES ('10', 'emp_name_7', '2021-04-13', '1500', '20000', '30', 'Clerk');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q8`.`employee` (`emp_no`, `emp_name`, `hiredate`, `commission`, `netsalary`, `dept_no`, `designation`) VALUES ('9', 'emp_name_8', '2020-04-10', '15500', '14300', '20', 'Manager');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from employee;
++--------+------------+------------+------------+-----------+---------+-------------+
+| emp_no | emp_name   | hiredate   | commission | netsalary | dept_no | designation |
++--------+------------+------------+------------+-----------+---------+-------------+
+|      1 | emp_name_1 | 2022-10-05 |       1200 |     11500 |      30 | Clerk       |
+|      2 | emp_name_4 | 2022-01-07 |      50000 |     48500 |      30 | Clerk       |
+|      3 | emp_name_2 | 2021-12-28 |      30000 |     32000 |      20 | Clerk       |
+|      4 | emp_name_3 | 2018-11-05 |     110000 |    145000 |      10 | Manager     |
+|      6 | emp_name_5 | 2016-10-01 |      98450 |    112000 |      10 | President   |
+|      7 | emp_name_6 | 2020-10-15 |      48000 |     64000 |      10 | Clerk       |
+|      9 | emp_name_8 | 2020-04-10 |      15500 |     14300 |      20 | Manager     |
+|     10 | emp_name_7 | 2021-04-13 |       1500 |     20000 |      30 | Clerk       |
++--------+------------+------------+------------+-----------+---------+-------------+
+8 rows in set (0.00 sec)
+
+mysql> select employee.* from employee where dept_no='30';
++--------+------------+------------+------------+-----------+---------+-------------+
+| emp_no | emp_name   | hiredate   | commission | netsalary | dept_no | designation |
++--------+------------+------------+------------+-----------+---------+-------------+
+|      1 | emp_name_1 | 2022-10-05 |       1200 |     11500 |      30 | Clerk       |
+|      2 | emp_name_4 | 2022-01-07 |      50000 |     48500 |      30 | Clerk       |
+|     10 | emp_name_7 | 2021-04-13 |       1500 |     20000 |      30 | Clerk       |
++--------+------------+------------+------------+-----------+---------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> select employee.emp_name ,employee.emp_no ,empolyee.dept_no from employee where designation='Clerk';
+ERROR 1054 (42S22): Unknown column 'empolyee.dept_no' in 'field list'
+mysql> select employee.emp_name ,employee.emp_no ,employee.dept_no from employee where designation='Clerk';
++------------+--------+---------+
+| emp_name   | emp_no | dept_no |
++------------+--------+---------+
+| emp_name_1 |      1 |      30 |
+| emp_name_4 |      2 |      30 |
+| emp_name_2 |      3 |      20 |
+| emp_name_6 |      7 |      10 |
+| emp_name_7 |     10 |      30 |
++------------+--------+---------+
+5 rows in set (0.01 sec)
+
+mysql> select employee.* where commission > netsalary;
+ERROR 1051 (42S02): Unknown table 'employee'
+mysql> select employee.* from employee where commission > netsalary;
++--------+------------+------------+------------+-----------+---------+-------------+
+| emp_no | emp_name   | hiredate   | commission | netsalary | dept_no | designation |
++--------+------------+------------+------------+-----------+---------+-------------+
+|      2 | emp_name_4 | 2022-01-07 |      50000 |     48500 |      30 | Clerk       |
+|      9 | emp_name_8 | 2020-04-10 |      15500 |     14300 |      20 | Manager     |
++--------+------------+------------+------------+-----------+---------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> select employee.* from employee where commission > 0.6*netsalary;
++--------+------------+------------+------------+-----------+---------+-------------+
+| emp_no | emp_name   | hiredate   | commission | netsalary | dept_no | designation |
++--------+------------+------------+------------+-----------+---------+-------------+
+|      2 | emp_name_4 | 2022-01-07 |      50000 |     48500 |      30 | Clerk       |
+|      3 | emp_name_2 | 2021-12-28 |      30000 |     32000 |      20 | Clerk       |
+|      4 | emp_name_3 | 2018-11-05 |     110000 |    145000 |      10 | Manager     |
+|      6 | emp_name_5 | 2016-10-01 |      98450 |    112000 |      10 | President   |
+|      7 | emp_name_6 | 2020-10-15 |      48000 |     64000 |      10 | Clerk       |
+|      9 | emp_name_8 | 2020-04-10 |      15500 |     14300 |      20 | Manager     |
++--------+------------+------------+------------+-----------+---------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> select emp^C
+mysql> select employee.emp_name ,employee.designation , employee.netsalary from employee where dept_no='20' and netsalary >1500;
++------------+-------------+-----------+
+| emp_name   | designation | netsalary |
++------------+-------------+-----------+
+| emp_name_2 | Clerk       |     32000 |
+| emp_name_8 | Manager     |     14300 |
++------------+-------------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select employee.* from employee where department='30' and netsalary>1500 and designation='clerk';
+ERROR 1054 (42S22): Unknown column 'department' in 'where clause'
+mysql> select employee.* from employee where dept_no='30' and netsalary>1500 and designation='clerk';
++--------+------------+------------+------------+-----------+---------+-------------+
+| emp_no | emp_name   | hiredate   | commission | netsalary | dept_no | designation |
++--------+------------+------------+------------+-----------+---------+-------------+
+|      1 | emp_name_1 | 2022-10-05 |       1200 |     11500 |      30 | Clerk       |
+|      2 | emp_name_4 | 2022-01-07 |      50000 |     48500 |      30 | Clerk       |
+|     10 | emp_name_7 | 2021-04-13 |       1500 |     20000 |      30 | Clerk       |
++--------+------------+------------+------------+-----------+---------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> select employee.* from employee where designation='manager' or designation='president';
++--------+------------+------------+------------+-----------+---------+-------------+
+| emp_no | emp_name   | hiredate   | commission | netsalary | dept_no | designation |
++--------+------------+------------+------------+-----------+---------+-------------+
+|      4 | emp_name_3 | 2018-11-05 |     110000 |    145000 |      10 | Manager     |
+|      6 | emp_name_5 | 2016-10-01 |      98450 |    112000 |      10 | President   |
+|      9 | emp_name_8 | 2020-04-10 |      15500 |     14300 |      20 | Manager     |
++--------+------------+------------+------------+-----------+---------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> select employee.* from employee where designation='manager' and dept_no!=30;
++--------+------------+------------+------------+-----------+---------+-------------+
+| emp_no | emp_name   | hiredate   | commission | netsalary | dept_no | designation |
++--------+------------+------------+------------+-----------+---------+-------------+
+|      4 | emp_name_3 | 2018-11-05 |     110000 |    145000 |      10 | Manager     |
+|      9 | emp_name_8 | 2020-04-10 |      15500 |     14300 |      20 | Manager     |
++--------+------------+------------+------------+-----------+---------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> select employee.* from employee where designation='manager' and dept_no!=20;
++--------+------------+------------+------------+-----------+---------+-------------+
+| emp_no | emp_name   | hiredate   | commission | netsalary | dept_no | designation |
++--------+------------+------------+------------+-----------+---------+-------------+
+|      4 | emp_name_3 | 2018-11-05 |     110000 |    145000 |      10 | Manager     |
++--------+------------+------------+------------+-----------+---------+-------------+
+1 row in set (0.00 sec)
+
+mysql> select employee.* from employee where  dept_no=10  and designation='Clerk' and designation='Manager';
+Empty set (0.00 sec)
+
+mysql> SELECT * FROM employee WHERE dept_no=10 AND designation IN ("Clerk", "Manager");
++--------+------------+------------+------------+-----------+---------+-------------+
+| emp_no | emp_name   | hiredate   | commission | netsalary | dept_no | designation |
++--------+------------+------------+------------+-----------+---------+-------------+
+|      4 | emp_name_3 | 2018-11-05 |     110000 |    145000 |      10 | Manager     |
+|      7 | emp_name_6 | 2020-10-15 |      48000 |     64000 |      10 | Clerk       |
++--------+------------+------------+------------+-----------+---------+-------------+
+2 rows in set (0.00 sec)
+
+
+
+mysql> select employee.* from employee where  dept_no=10  and designation='Clerk' or dept_no=10 and designation='Manager';
++--------+------------+------------+------------+-----------+---------+-------------+
+| emp_no | emp_name   | hiredate   | commission | netsalary | dept_no | designation |
++--------+------------+------------+------------+-----------+---------+-------------+
+|      4 | emp_name_3 | 2018-11-05 |     110000 |    145000 |      10 | Manager     |
+|      7 | emp_name_6 | 2020-10-15 |      48000 |     64000 |      10 | Clerk       |
++--------+------------+------------+------------+-----------+---------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> select employee.* from employee where ( dept_no=10  and designation='Manager') or( dept_no=20 and designation='Clerk');
++--------+------------+------------+------------+-----------+---------+-------------+
+| emp_no | emp_name   | hiredate   | commission | netsalary | dept_no | designation |
++--------+------------+------------+------------+-----------+---------+-------------+
+|      3 | emp_name_2 | 2021-12-28 |      30000 |     32000 |      20 | Clerk       |
+|      4 | emp_name_3 | 2018-11-05 |     110000 |    145000 |      10 | Manager     |
++--------+------------+------------+------------+-----------+---------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> 
+

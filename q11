@@ -1,0 +1,113 @@
+omickeyee@omickeyee-HP-Pavilion-Laptop-15-cc1xx:~$ sudo mysql
+[sudo] password for omickeyee: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 30
+Server version: 8.0.29-0ubuntu0.22.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database q11;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use q11;
+Database changed
+mysql> create table(pno int NOT NULL,pname varchar(25) NOT NULL ,qty_in_hands int NOT NULL ,price int NOT NULL , level int NOT NULL ,primary key(pno));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(pno int NOT NULL,pname varchar(25) NOT NULL ,qty_in_hands int NOT NULL ,price i' at line 1
+mysql> create table parts(pno int NOT NULL,pname varchar(25) NOT NULL ,qty_in_hands int NOT NULL ,price int NOT NULL , level int NOT NULL ,pri
+mary key(pno));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc parts;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| pno          | int         | NO   | PRI | NULL    |       |
+| pname        | varchar(25) | NO   |     | NULL    |       |
+| qty_in_hands | int         | NO   |     | NULL    |       |
+| price        | int         | NO   |     | NULL    |       |
+| level        | int         | NO   |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> insert into parts(pno,pname , qty_in_hands,price ,level ) values(101, 'handle' ,200,1000,1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into parts(pno,pname , qty_in_hands,price ,level ) values(102, 'tyre' ,300,1000,2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into parts(pno,pname , qty_in_hands,price ,level ) values(102, 'brake' ,400, 2000,3);
+ERROR 1062 (23000): Duplicate entry '102' for key 'parts.PRIMARY'
+mysql> insert into parts(pno,pname , qty_in_hands,price ,level ) values(103, 'brake' ,400, 2000,3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into parts(pno,pname , qty_in_hands,price ,level ) values(104, 'mirror' ,500, 5000,4);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from parts;
++-----+--------+--------------+-------+-------+
+| pno | pname  | qty_in_hands | price | level |
++-----+--------+--------------+-------+-------+
+| 101 | handle |          200 |  1000 |     1 |
+| 102 | tyre   |          300 |  1000 |     2 |
+| 103 | brake  |          400 |  2000 |     3 |
+| 104 | mirror |          500 |  5000 |     4 |
++-----+--------+--------------+-------+-------+
+4 rows in set (0.00 sec)
+
+mysql> delimiter &&
+mysql> ^C
+mysql> delimiter ;
+mysql> create trigger trig1 before update on parts for each row
+    -> begin
+    -> insert into logfile values(old.pno,curdate(),old.price,new.price);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 3
+mysql> create trigger trig1 before update on parts for each row begin insert into logfile values(old.pno,curdate(),old.price,new.price);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> delimiter &&
+mysql> create trigger trig1 before update on parts for each row begin insert into logfile values(old.pno,curdate(),old.price,new.price);
+    -> end &&
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter ;
+mysql> desc logfile;
+ERROR 1146 (42S02): Table 'q11.logfile' doesn't exist
+mysql> select * from parts;
++-----+--------+--------------+-------+-------+
+| pno | pname  | qty_in_hands | price | level |
++-----+--------+--------------+-------+-------+
+| 101 | handle |          200 |  1000 |     1 |
+| 102 | tyre   |          300 |  1000 |     2 |
+| 103 | brake  |          400 |  2000 |     3 |
+| 104 | mirror |          500 |  5000 |     4 |
++-----+--------+--------------+-------+-------+
+4 rows in set (0.00 sec)
+
+mysql> update parts set pno=101 where price=2000;
+ERROR 1146 (42S02): Table 'q11.logfile' doesn't exist
+mysql> delimiter &&
+mysql> create procedure proc()
+    -> begin
+    -> update parts set price= case when qty_in_hands>200 then price*1.8 else price*1.7
+    -> end &&
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4
+mysql> delimiter && 
+mysql> create procedure proc()
+    -> begin
+    -> update parts set price= case when qty_in_hands>200 then price*1.8 else price*1.7
+    -> ;
+    -> end &&
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ';
+end' at line 4
+mysql> create procedure proc() begin update parts set price= case when qty_in_hands>200 then price*1.8 else price*1.7; end&&
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '; end' at line 1
+mysql> create procedure proc() begin update parts set price= (select when qty_in_hands>200 then price*1.8 else price*1.7); end&&
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'when qty_in_hands>200 then price*1.8 else price*1.7); end' at line 1
+mysql> create procedure proc() begin update parts set price= (select when qty_in_hands>200 then price*1.8 else price*1.7); end&&
+
+

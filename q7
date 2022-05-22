@@ -1,0 +1,315 @@
+omickeyee@omickeyee-HP-Pavilion-Laptop-15-cc1xx:~$ sudo mysql
+[sudo] password for omickeyee: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 23
+Server version: 8.0.29-0ubuntu0.22.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database q6;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use q6;
+Database changed
+mysql> create table project( proj_no varchar(20) NOT NULL ,proj_name varchar(25) NOT NULL , chief varchar (20) NOT NULL, primary key(proj_no));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table employee(emp_no varchar(20) NOT NULL , emp_name varchar(25)
+NOT NULL,primary key(emp_no));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table assigned(proj_no varchar(20) NOT NULL ,emp_no varchar(20) NOT NULL);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> alter table assigned
+    -> add foreign key(proj_no) references project(proj_no);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table assigned
+    -> add foreign key(emp_no) references empolyee(emp_no);
+ERROR 1824 (HY000): Failed to open the referenced table 'empolyee'
+mysql> alter table assigned add foreign key(emp_no) references employee(emp_no);
+
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc project;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| proj_no   | varchar(20) | NO   | PRI | NULL    |       |
+| proj_name | varchar(25) | NO   |     | NULL    |       |
+| chief     | varchar(20) | NO   |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> desc employee;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| emp_no   | varchar(20) | NO   | PRI | NULL    |       |
+| emp_name | varchar(25) | NO   |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> desc assigned;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| proj_no | varchar(20) | NO   | MUL | NULL    |       |
+| emp_no  | varchar(20) | NO   | MUL | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> insert into project(proj_no ,proj_name,chief)
+    -> values('pr001','dsa','dsa_chief');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into project(proj_no ,proj_name,chief) values('pr002','dbms','dbms_chief');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into project(proj_no ,proj_name,chief) values('pr003','pa','pa_chief');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into project(proj_no ,proj_name,chief) values('pr004','cg','cg_chief');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into employee(emp_no,emp_name) values('er001','mike');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into employee(emp_no,emp_name) values('er002','blaze');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into employee(emp_no,emp_name) values('er003','draco');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into employee(emp_no,emp_name) values('er004','maya');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into employee(emp_no,emp_name) values('er005','mako');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into employee(emp_no,emp_name) values('er006','victor');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select* from project;
++---------+-----------+------------+
+| proj_no | proj_name | chief      |
++---------+-----------+------------+
+| pr001   | dsa       | dsa_chief  |
+| pr002   | dbms      | dbms_chief |
+| pr003   | pa        | pa_chief   |
+| pr004   | cg        | cg_chief   |
++---------+-----------+------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from employee;
++--------+----------+
+| emp_no | emp_name |
++--------+----------+
+| er001  | mike     |
+| er002  | blaze    |
+| er003  | draco    |
+| er004  | maya     |
+| er005  | mako     |
+| er006  | victor   |
++--------+----------+
+6 rows in set (0.00 sec)
+
+mysql> insert into assigned(proj_no,emp_no) values ('pr001', 'er001');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into assigned(proj_no,emp_no) values ('pr002', 'er002');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into assigned(proj_no,emp_no) values ('pr003', 'er003');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into assigned(proj_no,emp_no) values ('pr004', 'er004');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from employee;
++--------+----------+
+| emp_no | emp_name |
++--------+----------+
+| er001  | mike     |
+| er002  | blaze    |
+| er003  | draco    |
+| er004  | maya     |
+| er005  | mako     |
+| er006  | victor   |
++--------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select * from assigned;
++---------+--------+
+| proj_no | emp_no |
++---------+--------+
+| pr001   | er001  |
+| pr002   | er002  |
+| pr003   | er003  |
+| pr004   | er004  |
++---------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select count(*) from assigned;
++----------+
+| count(*) |
++----------+
+|        4 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select employee.* , project.proj_no from employee INNER JOIN  assigned on empolyee.emp_no=assigned.emp_no where project.proj_no='pr002';
+ERROR 1054 (42S22): Unknown column 'project.proj_no' in 'field list'
+mysql> select employee.* , project.proj_no from employee INNER JOIN  assigned on empolyee.emp_no=assigned.emp_no where proj_no='pr002';
+ERROR 1054 (42S22): Unknown column 'project.proj_no' in 'field list'
+mysql> select employee.* , project.proj_no from employee INNER JOIN  assigned on employee.emp_no=assigned.emp_no where proj_no='pr002';
+ERROR 1054 (42S22): Unknown column 'project.proj_no' in 'field list'
+mysql> select employee.* , project.proj_no from employe,project INNER JOIN  assigned on employee.emp_no=assigned.emp_no where proj_no='pr002';
+
+ERROR 1146 (42S02): Table 'q6.employe' doesn't exist
+mysql> select employee.* , project.proj_no from employee,project INNER JOIN  assigned on employee.emp_no=assigned.emp_no where proj_no='pr002';
+ERROR 1052 (23000): Column 'proj_no' in where clause is ambiguous
+mysql> select employee.*  from employee INNER JOIN  assigned on employee.emp_no=assigned.emp_no where proj_no='pr002';
++--------+----------+
+| emp_no | emp_name |
++--------+----------+
+| er002  | blaze    |
++--------+----------+
+1 row in set (0.00 sec)
+
+mysql> select employee.*, project.proj_name  from assigned INNER JOIN  employee on employee.emp_no=assigned.emp_no INNER JOIN project on assigned.project_no=project.proj_no where proj_no='pr002';
+ERROR 1052 (23000): Column 'proj_no' in where clause is ambiguous
+mysql> select employee.*, project.proj_name  from assigned INNER JOIN  employee on employee.emp_no=assigned.emp_no INNER JOIN project on assigned.proj_no=project.proj_no where proj_no='pr002';
+ERROR 1052 (23000): Column 'proj_no' in where clause is ambiguous
+mysql> select employee.*, project.proj_name  from assigned INNER JOIN  employee on employee.emp_no=assigned.emp_no INNER JOIN project on assigned.proj_no=project.proj_no where  project.proj_no='pr002';
++--------+----------+-----------+
+| emp_no | emp_name | proj_name |
++--------+----------+-----------+
+| er002  | blaze    | dbms      |
++--------+----------+-----------+
+1 row in set (0.00 sec)
+
+mysql> select employee.*, project.proj_name  from assigned INNER JOIN  employee on employee.emp_no=assigned.emp_no INNER JOIN project on assigned.proj_no=project.proj_no where  project.proj_name='dbms';
++--------+----------+-----------+
+| emp_no | emp_name | proj_name |
++--------+----------+-----------+
+| er002  | blaze    | dbms      |
++--------+----------+-----------+
+1 row in set (0.00 sec)
+
+mysql> delimiter &&
+mysql> create trigger delete_trigger before delete
+    -> on employee for each row 
+    -> begin
+    -> delete from assigned where emp_no=old.emp_no;
+    -> end &&
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> delete from employee where emp_no='er004';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from assigned;
++---------+--------+
+| proj_no | emp_no |
++---------+--------+
+| pr001   | er001  |
+| pr002   | er002  |
+| pr003   | er003  |
++---------+--------+
+3 rows in set (0.00 sec)
+
+mysql> delimiter &&
+mysql> create trigger backup_assigned
+    -> before delete
+    -> on project for each row
+    -> begin
+    -> insrt into backup_assigned select * from assigned ;
+    -> end &&
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'into backup_assigned select * from assigned ;
+end' at line 5
+mysql> create trigger backup_assigned before delete on project for each row begin inesrt into backup_assigned select * from assigned ; end&&
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'into backup_assigned select * from assigned ; end' at line 1
+mysql> create trigger backup_assigned before delete on project for each row begin insert into backup_assigned select * from assigned ; end&&
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> update from employee where emp_no='er004';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from employee where emp_no='er004'' at line 1
+mysql> se;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'se' at line 1
+mysql> select * from backup_assigned;
+ERROR 1146 (42S02): Table 'q6.backup_assigned' doesn't exist
+mysql> create table backup_assigned;
+ERROR 4028 (HY000): A table must have at least one visible column.
+mysql> create table backup_assigned(proj_no varchar(20) NOT NULL ,emp_no varchar(20) NOT NULL);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from assigned_backup;
+ERROR 1146 (42S02): Table 'q6.assigned_backup' doesn't exist
+mysql> select * from backup_assigned;
+Empty set (0.00 sec)
+
+mysql> delete from project where proj_no='pr001';
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`q6`.`assigned`, CONSTRAINT `assigned_ibfk_1` FOREIGN KEY (`proj_no`) REFERENCES `project` (`proj_no`))
+mysql> delete from project where proj_name='dsa';
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`q6`.`assigned`, CONSTRAINT `assigned_ibfk_1` FOREIGN KEY (`proj_no`) REFERENCES `project` (`proj_no`))
+mysql> delimiter &&
+mysql> create trigger backup_assigned
+    -> ;
+    -> ^C
+mysql> create or replace 
+    -> delimiter &&
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'delimiter' at line 2
+mysql> create or replace
+    -> trigger backup_assigned
+    -> after delete
+    -> ^C
+mysql> create or replace
+    -> trigger backup_assigned
+    -> after delete
+    -> on project for each row
+    -> begin
+    -> insert into backup_assigned select * from assigned ;
+    -> end &&
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'trigger backup_assigned
+after delete
+on project for each row
+begin
+insert into b' at line 2
+mysql> drop trigger backup_assigned;
+    -> delimiter ;
+    -> //
+    -> ^C
+mysql> delimiter ;
+mysql> drop trigger backup_assigned;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimeter &&
+    ->  create trigger backup_assigned before delete on project for each row begin insert into backup_assigned select * from assigned ; end&&
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'delimeter &&
+ create trigger backup_assigned before delete on project for each r' at line 1
+    ->  create trigger backup_assigned after delete on project for each row begin insert into backup_assigned select * from assigned ; end&&
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'end&&
+ create trigger backup_assigned after delete on project for each row begin' at line 1
+    -> ^C
+mysql> delimeter &&
+    ->  create trigger backup_assigned
+    -> after delete
+    -> on project for each row
+    -> begin
+    -> insert into backup_assigned select * from assigned ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'delimeter &&
+ create trigger backup_assigned
+after delete
+on project for each ro' at line 1
+mysql> 

@@ -1,0 +1,148 @@
+omickeyee@omickeyee-HP-Pavilion-Laptop-15-cc1xx:~$ sudo mysql
+[sudo] password for omickeyee: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 32
+Server version: 8.0.29-0ubuntu0.22.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database q14;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use q14;
+Database changed
+mysql> create table supplier(sid int NOT NULL ,sname varchar (20) ,address varchar(20) NOT NULL , primary key(sid));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table parts(pid int NOT NULL ,pname varchar (20) ,color varchar(20
+) NOT NULL , primary key(pid));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table catalog(sid int NOT NULL ,pid int NOT NULL ,cost int NOT NULL );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> insert into supplier(sid ,sname ,address) values (101,'s1','pune');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into supplier(sid ,sname ,address) values (102,'s2','mumbai');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into supplier(sid ,sname ,address) values (103,'s3','delhi');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into supplier(sid ,sname ,address) values (104,'s4','banglore');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into parts(pid ,pname ,color) values (205,'handle','red');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into parts(pid ,pname ,color) values (206,'brake','green');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into parts(pid ,pname ,color) values (207,'mirror','green');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into parts(pid ,pname ,color) values (208,'tyre','red');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into parts(pid ,pname ,color) values (209,'light','blue');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into catalog(sid ,pid ,cost) values (101,205,25);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into catalog(sid ,pid ,cost) values (102,206,30);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into catalog(sid ,pid ,cost) values (103,207,15);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into catalog(sid ,pid ,cost) values (104,208,35);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into catalog(sid ,pid ,cost) values (105,209,40);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from supplier;
++-----+-------+----------+
+| sid | sname | address  |
++-----+-------+----------+
+| 101 | s1    | pune     |
+| 102 | s2    | mumbai   |
+| 103 | s3    | delhi    |
+| 104 | s4    | banglore |
++-----+-------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from parts;
++-----+--------+-------+
+| pid | pname  | color |
++-----+--------+-------+
+| 205 | handle | red   |
+| 206 | brake  | green |
+| 207 | mirror | green |
+| 208 | tyre   | red   |
+| 209 | light  | blue  |
++-----+--------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select * from catalog;
++-----+-----+------+
+| sid | pid | cost |
++-----+-----+------+
+| 101 | 205 |   25 |
+| 102 | 206 |   30 |
+| 103 | 207 |   15 |
+| 104 | 208 |   35 |
+| 105 | 209 |   40 |
++-----+-----+------+
+5 rows in set (0.00 sec)
+
+mysql> select supplier.sid ,supplier.sname from catalog inner join supplier on supplier.sid=catalog.sid inner join parts on catalog.pid=parts.pid where color='red';
++-----+-------+
+| sid | sname |
++-----+-------+
+| 101 | s1    |
+| 104 | s4    |
++-----+-------+
+2 rows in set (0.00 sec)
+
+mysql> select parts.pid ,parts.pname from catalog inner join supplier on supplier.sid=catalog.sid inner join parts on catalog.pid=parts.pid wh
+ere cost>25;
++-----+-------+
+| pid | pname |
++-----+-------+
+| 206 | brake |
+| 208 | tyre  |
++-----+-------+
+2 rows in set (0.00 sec)
+
+mysql> select parts.pid ,parts.pname from catalog inner join supplier on supplier.sid=catalog.sid inner join parts on catalog.pid=parts.pid where color='green';
++-----+--------+
+| pid | pname  |
++-----+--------+
+| 206 | brake  |
+| 207 | mirror |
++-----+--------+
+2 rows in set (0.00 sec)
+
+
+mysql> select supplier.sname ,parts.pname,parts.color,catalog.cost from catalog inner join supplier on supplier.sid=catalog.sid inner join parts on catalog.pid=parts.pid ;
++-------+--------+-------+------+
+| sname | pname  | color | cost |
++-------+--------+-------+------+
+| s1    | handle | red   |   25 |
+| s2    | brake  | green |   30 |
+| s3    | mirror | green |   15 |
+| s4    | tyre   | red   |   35 |
++-------+--------+-------+------+
+4 rows in set (0.00 sec)
+
+mysql> 
+

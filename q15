@@ -1,0 +1,291 @@
+omickeyee@omickeyee-HP-Pavilion-Laptop-15-cc1xx:~$ sudo mysql
+[sudo] password for omickeyee: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 33
+Server version: 8.0.29-0ubuntu0.22.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database practical_q15;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use practical_q15;
+Database changed
+mysql> CREATE TABLE `practical_q15`.`employee` (
+    ->   `person_name` VARCHAR(100) NOT NULL,
+    ->   `street` VARCHAR(50) NOT NULL,
+    ->   `city` VARCHAR(20) NOT NULL,
+    ->   PRIMARY KEY (`person_name`));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> CREATE TABLE `practical_q15`.`company` (
+    ->   `company_name` VARCHAR(100) NOT NULL,
+    ->   `city` VARCHAR(20) NOT NULL,
+    ->   PRIMARY KEY (`company_name`))
+    ->  ;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE `practical_q15`.`works` (
+    ->   `person_name` VARCHAR(100) NOT NULL,
+    ->   `company_name` VARCHAR(100) NOT NULL,
+    ->   `salary` INT NOT NULL,
+    ->   PRIMARY KEY (`person_name`),
+    ->   CONSTRAINT `fk_person_name_from_Employee`
+    ->     FOREIGN KEY (`person_name`)
+    ->     REFERENCES `practical_q15`.`employee` (`person_name`)
+    ->     ON DELETE NO ACTION
+    ->     ON UPDATE CASCADE);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE `practical_q15`.`manages` (
+    ->   `person_name` VARCHAR(100) NOT NULL,
+    ->   `manager_name` VARCHAR(100),
+    ->   PRIMARY KEY (`person_name`),
+    ->   INDEX `fk_person_name_from_Employee_as_person_name_idx` (`person_name` ASC) VISIBLE,
+    ->   CONSTRAINT `fk_person_name_from_Employee_as_manager_name`
+    ->     FOREIGN KEY (`manager_name`)
+    ->     REFERENCES `practical_q15`.`employee` (`person_name`)
+    ->     ON DELETE NO ACTION
+    ->     ON UPDATE CASCADE,
+    ->   CONSTRAINT `fk_person_name_from_Employee_as_person_name`
+    ->     FOREIGN KEY (`person_name`)
+    ->     REFERENCES `practical_q15`.`employee` (`person_name`)
+    ->     ON DELETE NO ACTION
+    ->     ON UPDATE CASCADE);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> NSERT INTO `practical_q15`.`employee` (`person_name`, `street`, `city`) VALUES ('Abhi Jadhav', 'College Road', 'Nashik');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'NSERT INTO `practical_q15`.`employee` (`person_name`, `street`, `city`) VALUES (' at line 1
+mysql> INSERT INTO `practical_q15`.`employee` (`person_name`, `street`, `city`) VALUES ('Abhi Ingle', 'Mahajan Road', 'Abad');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q15`.`employee` (`person_name`, `street`, `city`) VALUES ('Pratik Gabhale', 'Thane Highway', 'Thane');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q15`.`employee` (`person_name`, `street`, `city`) VALUES ('Atharva Kinikar', 'Camp Road', 'Pune');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q15`.`employee` (`person_name`, `street`, `city`) VALUES ('Shlok Hinge', 'Hingewadi Road', 'Pune');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q15`.`employee` (`person_name`, `street`, `city`) VALUES ('Tanmay Gore', 'College Road', 'Nashik');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> ^C
+mysql> INSERT INTO `practical_q15`.`employee` (`person_name`, `street`, `city`) VALUES ('Abhi Jadhav', 'College Road', 'Nashik')
+    -> ;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO `practical_q15`.`company` (`company_name`, `city`) VALUES ('First Bank Corporation', 'Nashik');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q15`.`company` (`company_name`, `city`) VALUES ('Microsoft', 'Abad');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q15`.`company` (`company_name`, `city`) VALUES ('Google', 'Thane');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q15`.`works` (`person_name`, `company_name`, `salary`) VALUES ('Abhi Jadhav', 'First Bank Corporation', '125000');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO `practical_q15`.`works` (`person_name`, `company_name`, `salary`) VALUES ('Abhi Ingle', 'Microsoft', '120000');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q15`.`works` (`person_name`, `company_name`, `salary`) VALUES ('Pratik Gabhale', 'First Bank Corporation', '100000');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q15`.`works` (`person_name`, `company_name`, `salary`) VALUES ('Atharva Kinikar', 'Microsoft', '150000');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q15`.`works` (`person_name`, `company_name`, `salary`) VALUES ('Shlok Hinge', 'First Bank Corporation', '120000');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q15`.`works` (`person_name`, `company_name`, `salary`) VALUES ('Tanmay Gore', 'First Bank Corporation', '100000');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> NSERT INTO `practical_q15`.`manages` (`person_name`, `manager_name`) VALUES ('Pratik Gabhale', 'Abhi Jadhav');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'NSERT INTO `practical_q15`.`manages` (`person_name`, `manager_name`) VALUES ('Pr' at line 1
+mysql> INSERT INTO `practical_q15`.`manages` (`person_name`, `manager_name`) VALUES ('Shlok Hinge', 'Abhi Jadhav');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO `practical_q15`.`manages` (`person_name`, `manager_name`) VALUES ('Abhi Ingle', 'Atharva Kinikar');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO `practical_q15`.`manages` (`person_name`, `manager_name`) VALUES ('Tanmay Gore', 'Abhi Jadhav');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from employee;
++-----------------+----------------+--------+
+| person_name     | street         | city   |
++-----------------+----------------+--------+
+| Abhi Ingle      | Mahajan Road   | Abad   |
+| Abhi Jadhav     | College Road   | Nashik |
+| Atharva Kinikar | Camp Road      | Pune   |
+| Pratik Gabhale  | Thane Highway  | Thane  |
+| Shlok Hinge     | Hingewadi Road | Pune   |
+| Tanmay Gore     | College Road   | Nashik |
++-----------------+----------------+--------+
+6 rows in set (0.01 sec)
+
+mysql> select * from works;
++-----------------+------------------------+--------+
+| person_name     | company_name           | salary |
++-----------------+------------------------+--------+
+| Abhi Ingle      | Microsoft              | 120000 |
+| Abhi Jadhav     | First Bank Corporation | 125000 |
+| Atharva Kinikar | Microsoft              | 150000 |
+| Pratik Gabhale  | First Bank Corporation | 100000 |
+| Shlok Hinge     | First Bank Corporation | 120000 |
+| Tanmay Gore     | First Bank Corporation | 100000 |
++-----------------+------------------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select * from company;
++------------------------+--------+
+| company_name           | city   |
++------------------------+--------+
+| First Bank Corporation | Nashik |
+| Google                 | Thane  |
+| Microsoft              | Abad   |
++------------------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select * from manages;
++-------------+-----------------+
+| person_name | manager_name    |
++-------------+-----------------+
+| Shlok Hinge | Abhi Jadhav     |
+| Tanmay Gore | Abhi Jadhav     |
+| Abhi Ingle  | Atharva Kinikar |
++-------------+-----------------+
+3 rows in set (0.00 sec)
+
+mysql> select employee.* from employee inner join works on employee.person_name=works.person_name where company_name='First Bank Corporation' and salary >10000;
++----------------+----------------+--------+
+| person_name    | street         | city   |
++----------------+----------------+--------+
+| Abhi Jadhav    | College Road   | Nashik |
+| Pratik Gabhale | Thane Highway  | Thane  |
+| Shlok Hinge    | Hingewadi Road | Pune   |
+| Tanmay Gore    | College Road   | Nashik |
++----------------+----------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select employee.person_name from works inner join employee on works.person_name=employee.person_name inner join company on company.company_name=works.company_name where employee.city=company.city;
++-------------+
+| person_name |
++-------------+
+| Abhi Ingle  |
+| Abhi Jadhav |
+| Tanmay Gore |
++-------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT emp.person_name FROM works, employee emp, employee manager, company emp_city, company manager_city INNER JOIN employee ON emp.person_name=works.person_name AND manager.person_name=works.manager_name INNER JOIN comapany ON works.company_name=emp_city.company_name AND works.company_name=manager_city.company_name WHERE emp.city=manager.city;
+ERROR 1146 (42S02): Table 'practical_q15.comapany' doesn't exist
+mysql> SELECT emp.person_name FROM employee emp, employee manager INNER JOIN works ON emp.person_name=works;
+ERROR 1054 (42S22): Unknown column 'emp.person_name' in 'on clause'
+mysql> SELECT emp.person_name FROM works, employee emp, employee manager, company emp_city, company manager_city INNER JOIN employee ON emp.person_name=works.person_name AND manager.person_name=works.manager_name INNER JOIN comapany ON works.company_name=emp_city.company_name AND works.company_name=manager_city.company_name WHERE emp.city=manager.city;
+ERROR 1146 (42S02): Table 'practical_q15.comapany' doesn't exist
+mysql> SELECT emp.person_name FROM employee emp, employee manager INNER JOIN works ON emp.person_name=works;
+ERROR 1054 (42S22): Unknown column 'emp.person_name' in 'on clause'
+mysql> alter table manages
+    -> add city varchar(20) NOT NULL;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from manages;
++-------------+-----------------+------+
+| person_name | manager_name    | city |
++-------------+-----------------+------+
+| Abhi Ingle  | Atharva Kinikar |      |
+| Shlok Hinge | Abhi Jadhav     |      |
+| Tanmay Gore | Abhi Jadhav     |      |
++-------------+-----------------+------+
+3 rows in set (0.00 sec)
+
+mysql> alter table manages;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> alter table manages
+    -> add column city values 'pune';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'values 'pune'' at line 2
+mysql> alter table manages insert into  city values pune;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'insert into  city values pune' at line 1
+mysql> alter table city
+    -> add manages(city) values('pune');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(city) values('pune')' at line 2
+mysql> alter table city add city values('pune');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'values('pune')' at line 1
+mysql> create table log_file(
+    -> person_name varchar(100),
+    -> old_company_name varchar(100),
+    -> new_company_name varchar(100));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> delimiter &&
+mysql> create trigger trig2
+    -> after update on works for each row 
+    -> begin
+    -> insert into log_file values(
+    -> OLD.person_name,OLD.company_name,NEW.company_name);
+    -> end &&
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> update works 
+    -> set company_name='new company11';
+Query OK, 6 rows affected (0.01 sec)
+Rows matched: 6  Changed: 6  Warnings: 0
+
+mysql> update works
+    -> ^C
+mysql> select * from log_file;
++-----------------+------------------------+------------------+
+| person_name     | old_company_name       | new_company_name |
++-----------------+------------------------+------------------+
+| Abhi Ingle      | Microsoft              | new company11    |
+| Abhi Jadhav     | First Bank Corporation | new company11    |
+| Atharva Kinikar | Microsoft              | new company11    |
+| Pratik Gabhale  | First Bank Corporation | new company11    |
+| Shlok Hinge     | First Bank Corporation | new company11    |
+| Tanmay Gore     | First Bank Corporation | new company11    |
++-----------------+------------------------+------------------+
+6 rows in set (0.00 sec)
+
+mysql> update manages set city='pune' where person_name='Abhi Ingle ';
+Query OK, 0 rows affected (0.01 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> select * from manages;
++-------------+-----------------+------+
+| person_name | manager_name    | city |
++-------------+-----------------+------+
+| Abhi Ingle  | Atharva Kinikar |      |
+| Shlok Hinge | Abhi Jadhav     |      |
+| Tanmay Gore | Abhi Jadhav     |      |
++-------------+-----------------+------+
+3 rows in set (0.00 sec)
+
+mysql> update manages set city='pune' where person_name='Abhi Ingle';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from manages;
++-------------+-----------------+------+
+| person_name | manager_name    | city |
++-------------+-----------------+------+
+| Abhi Ingle  | Atharva Kinikar | pune |
+| Shlok Hinge | Abhi Jadhav     |      |
+| Tanmay Gore | Abhi Jadhav     |      |
++-------------+-----------------+------+
+3 rows in set (0.00 sec)
+
+mysql> 
+

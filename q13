@@ -1,0 +1,128 @@
+omickeyee@omickeyee-HP-Pavilion-Laptop-15-cc1xx:~$ sudo mysql
+[sudo] password for omickeyee: 
+Sorry, try again.
+[sudo] password for omickeyee: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 31
+Server version: 8.0.29-0ubuntu0.22.04.2 (Ubuntu)
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database q13;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use q13;
+Database changed
+mysql> create table actors(aid int,name varchar(255));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table movies(mid int,title varchar(255));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table role(mid int,aid int ,rname varchar(255));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into actors(aid,name) values(101,'cc');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into actors(aid,name) values(23239,'ok');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into actors(aid,name) values(102,'abd');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into movies(mid,title) values(203,'death');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into movies(mid,title) values(204,'god');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into movies(mid,title) values(202,'god');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into movies(mid,title) values(201,'ocean');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into role(mid,aid,rname) values(203,101,'r1');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into role(mid,aid,rname) values(202,102,'r2');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into role(mid,aid,rname) values(204,102,'r3');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * actors;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'actors' at line 1
+mysql> select * from actors;
++-------+------+
+| aid   | name |
++-------+------+
+|   101 | cc   |
+| 23239 | ok   |
+|   102 | abd  |
++-------+------+
+3 rows in set (0.00 sec)
+
+mysql> select * from movies;
++------+-------+
+| mid  | title |
++------+-------+
+|  203 | death |
+|  204 | god   |
+|  202 | god   |
+|  201 | ocean |
++------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from role;
++------+------+-------+
+| mid  | aid  | rname |
++------+------+-------+
+|  203 |  101 | r1    |
+|  202 |  102 | r2    |
+|  204 |  102 | r3    |
++------+------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select movies.* ,role.rname from role join movies on role.mid=movies.mid
+join actors on role.aid=actors.aid where name='cc';
++------+-------+-------+
+| mid  | title | rname |
++------+-------+-------+
+|  203 | death | r1    |
++------+-------+-------+
+1 row in set (0.00 sec)
+
+mysql> create view actor_and_roles1 as
+    -> select mid,aid,count(*) as count from role group by aid ;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from actor_and_roles1;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'q13.role.mid' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select * from actor_and_roles1 where
+    -> mid = (select mid from movies where mid in (select mid from actor_and_roles1 where
+    -> aid=101));
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'q13.role.mid' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select * from actor_and_roles1 where
+    -> mid = (select mid from movies where mid in (select mid from actor_and_roles1 where aid=101));
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'q13.role.mid' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select * from actor_and_roles1 where mid = (select mid from movies where mid in (select mid from actor_and_roles1 where aid=101));
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'q13.role.mid' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select * from actors where actors.aid not in (select role.aid from role);
++-------+------+
+| aid   | name |
++-------+------+
+| 23239 | ok   |
++-------+------+
+1 row in set (0.00 sec)
+
+mysql> 
+
+
